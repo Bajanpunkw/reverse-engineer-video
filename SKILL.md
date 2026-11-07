@@ -1,9 +1,9 @@
 ---
-name: recreate-any-video
+name: reverse-engineer-video
 description: Recreate the visual style of any video in code (three.js / canvas → mp4) with your own story — from checking whether the style can be drawn in code, through a frame-accurate style spec, story and scenes, rendering and sound, to a finished video. Use when the user gives a video or channel link and asks to recreate its style, make "a video like this", break down a format, or make a new episode in a style that was already recreated.
 ---
 
-# REV — Recreate Any Video (recreate a video style in code)
+# REV — Reverse Engineer Video (recreate a video style in code)
 
 The product is the **style**, not the video: the visual language matches the original (shapes, palette, fonts, layout, light, camera, transitions, pacing) while the story is new. Never copy the original's footage, frames or audio into the output.
 

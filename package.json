@@ -1,5 +1,5 @@
 {
-  "name": "recreate-any-video",
+  "name": "reverse-engineer-video",
   "private": true,
   "description": "Claude Code skill: recreate the visual style of a video in code (three.js / canvas → mp4)",
   "license": "MIT",

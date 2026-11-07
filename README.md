@@ -1,6 +1,6 @@
-# REV — Recreate Any Video
+# REV — Reverse Engineer Video
 
-**REV** is short for **Recreate Any Video**: a nod to [REA (Reverse Engineer Anything)](https://github.com/morluto/rea), the skill that teaches agents to take compiled software apart. REA reverse-engineers apps; REV reverse-engineers the look of a video.
+**REV** is short for **Reverse Engineer Video**: a nod to [REA (Reverse Engineer Anything)](https://github.com/morluto/rea), the skill that teaches agents to take compiled software apart. REA reverse-engineers apps; REV reverse-engineers the look of a video and rebuilds it in code.
 
 A [Claude Code](https://claude.com/claude-code) skill that recreates the **visual style** of a video in code — and renders your own story in that style to an mp4.
 
@@ -61,14 +61,14 @@ work/<date>-<name>/
 Requirements: macOS or Linux (Windows via WSL), **Node.js 18+**, **Python 3.10+**, ~1 GB disk. Chrome and ffmpeg are installed by the setup script.
 
 ```bash
-git clone <this-repo-url> ~/.claude/skills/recreate-any-video
-cd ~/.claude/skills/recreate-any-video
+git clone <this-repo-url> ~/.claude/skills/reverse-engineer-video
+cd ~/.claude/skills/reverse-engineer-video
 bash scripts/setup.sh      # npm install (headless Chrome, three.js, ffmpeg) + Python venv; ends with doctor.sh
 ```
 
 `scripts/doctor.sh` checks every tool and renders one test frame of the example to `work/doctor/f10.jpg`.
 
-(Project-level install works too: put the folder in `<your-project>/.claude/skills/recreate-any-video`.)
+(Project-level install works too: put the folder in `<your-project>/.claude/skills/reverse-engineer-video`.)
 
 ## Use
 
