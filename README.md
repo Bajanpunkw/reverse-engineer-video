@@ -6,15 +6,19 @@ A [Claude Code](https://claude.com/claude-code) skill that recreates the **visua
 
 No AI video generation and no footage from the original: the agent studies the original frame by frame, writes a style spec, builds the scenes in three.js / canvas, renders them frame by frame in headless Chrome, synthesizes the soundtrack, and checks its own frames against the original before showing you anything.
 
-| `examples/x-followers/preview.mp4` | `examples/data-center/preview.mp4` |
-|---|---|
-| "What if your X account doubled its followers every second?" — 49 s | "What if a data center doubled its power every 2 seconds?" — 107 s |
+| `examples/x-followers/preview.mp4` | `examples/data-center/preview.mp4` | `examples/simply-animated/preview.mp4` |
+|---|---|---|
+| "What if your X account doubled its followers every second?" — 49 s | "What if a data center doubled its power every 2 seconds?" — 107 s | "AI builder edition" — glowing stick figures, "A vs B", cut to a phonk track — 34 s |
 
-Both examples are in the style of **[OutwardAnimates](https://www.youtube.com/@outwardanimates)** — credit for the visual language goes to that channel. The stories, code, 3D scenes and sound are original; no frames, footage or audio from the channel are included.
+Two styles that have nothing in common, same skill:
+- **[OutwardAnimates](https://www.youtube.com/@outwardanimates)** (the first two) — hazy 3D escalation with a serif HUD.
+- **[Simply Animated](https://www.youtube.com/@SimplyAnimatedVisuals)** — clay-like stick figures with glow on pure black, motivational "A vs B" parables.
+
+Credit for the visual language goes to those channels. The stories, code, scenes, figure rig and sound are original; no frames, footage or audio from the channels are included. The Simply Animated example uses a royalty-free Pixabay track (link in its README).
 
 ## Heads-up: this is my first public skill
 
-I'm not a seasoned skill author: this is the first skill I'm sharing. It worked end to end on my machine for the two videos below, but on yours something may break: a different OS, a different Node or Python version, a missing library, a path the scripts don't expect.
+I'm not a seasoned skill author: this is the first skill I'm sharing. It worked end to end on my machine for the three videos above, but on yours something may break: a different OS, a different Node or Python version, a missing library, a path the scripts don't expect.
 
 That's fine, because you're not on your own: **your AI agent can fix it.** If a step fails, paste the error into Claude Code (or whatever agent you use) and ask it to read `SKILL.md` and the failing script and patch it for your setup. Everything here is plain text and small scripts, made to be read and changed by an agent. Change the render command for your machine, swap the font, add a stage, rewrite the rules for your own style. Treat it as a starting point, not a finished product.
 
@@ -31,7 +35,7 @@ You give Claude Code a link and a topic. The skill walks through seven stages, s
  2 story       your story in the original's skeleton → a scene table by the second            🛑 you approve the story
  3 build       video.html (renderFrame(t)) + control frames next to the original, self-checked 🛑 you approve the picture
  4 render      headless Chrome, frame by frame → video-full.mp4 (locally or on an optional server)
- 5 sound       synthesized soundtrack, loudness normalized and checked → final.mp4
+ 5 sound       synthesized soundtrack, or a real royalty-free track fitted to the bars → loudness checked → final.mp4
  6 check       per-second pulse (dead zones), style comparison, readability, loudness       🛑 you watch it
 ```
 
@@ -52,7 +56,7 @@ Two modes:
 work/<date>-<name>/
   style.md          style spec + scene table + facts with sources
   analysis/         frame sheets, comparison images, pacing measurements
-  src/              video.html, hud.js, scenes.js, sound.py, fonts/   ← the reusable engine for the next episode
+  src/              video.html, hud.js / rig.js, scenes.js, sound.py or music.sh, fonts/   ← the reusable engine for the next episode
   final.mp4         1080×1920 or 1920×1080 (follows the source), 30 fps, −26 LUFS
 ```
 
@@ -92,7 +96,7 @@ Rendering 3D in software WebGL is CPU-heavy: a 49 s video with crowds took ~18 m
 - **The video is a web page.** `src/video.html` exposes `window.renderFrame(t)`, which draws the frame at time `t` (three.js scene + an HTML/CSS overlay), and `window.READY` once fonts and assets are loaded. Every frame depends only on `t`, so rendering is deterministic and can be split across workers.
 - **The renderer** (`scripts/render.cjs`) serves `src/`, opens it in several headless Chromes, calls `renderFrame` for every frame, screenshots, and encodes with ffmpeg. Crashed runs resume from cached frames.
 - **The style match is measured, not eyeballed:** `compare.py` overlays our frame on the original's (element boxes in px, text-mask IoU, palette difference); `pulse.py` measures pacing per second (motion, cuts, still runs, silence, words/min) for both videos.
-- **Sound is code too:** `sound.py` synthesizes an ambient bed, milestone booms, whooshes and notification pops with numpy; `loudness.py` normalizes linearly to −26 LUFS and fails the mix if any moment is louder than −20 LUFS or drops to silence. Narrated styles use `tts.py` (edge-tts with word timings) + `score.py`.
+- **Sound:** for an edit cut to one track, `beatgrid.py` measures a real royalty-free track (tempo, downbeats, drop) and `music.sh` stretches it so every bar lands on a scene cut. Otherwise sound is code too: `sound.py` synthesizes an ambient bed, milestone booms, whooshes and notification pops with numpy; `loudness.py` normalizes linearly to −26 LUFS and fails the mix if any moment is louder than −20 LUFS or drops to silence. Narrated styles use `tts.py` (edge-tts with word timings) + `score.py`.
 - **The skill learns:** every correction you make is written into the "Lessons" section of the stage it belongs to.
 
 ## Repository
@@ -100,12 +104,13 @@ Rendering 3D in software WebGL is CPU-heavy: a 49 s video with crowds took ~18 m
 ```
 SKILL.md                 the skill: modes, stages, hard rules, tools
 stages/00…6-*.md         step-by-step instructions for each stage, with lessons from real runs
-scripts/                 setup, doctor, fetch, feasibility, pulse, compare, render, sheet, tts, score, loudness, mux
+scripts/                 setup, doctor, fetch, feasibility, pulse, compare, render, sheet, tts, score, beatgrid, loudness, mux
 server/                  optional Docker render server + deploy/remote helpers
 examples/
   outwardanimates-style.md   the measured style spec
   x-followers/               src/ + preview.mp4 + scene table + facts
   data-center/               src/ + preview.mp4 + scene table + facts
+  simply-animated/           style spec + src/ (stick-figure rig, music.sh) + preview.mp4
 ```
 
 ## Limits
@@ -117,4 +122,4 @@ examples/
 
 ## License
 
-Code: MIT (`LICENSE`). Fonts in `examples/*/src/fonts/`: Cormorant Garamond, SIL Open Font License 1.1 (`OFL.txt`). three.js, puppeteer and ffmpeg are installed from npm under their own licenses.
+Code: MIT (`LICENSE`). Fonts in `examples/*/src/fonts/`: Cormorant Garamond, Montserrat, Orbitron — SIL Open Font License 1.1 (`OFL.txt`). three.js, puppeteer and ffmpeg are installed from npm under their own licenses.

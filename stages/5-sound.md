@@ -7,6 +7,8 @@ The agent can't hear: every decision is based on a description of the layers, lo
 - **With a narrator** (OverSimplified, TED-Ed style): `scripts/tts.py` (edge-tts, word timings → word-by-word subtitles; trims the silence edge-tts adds around phrases) → `scripts/score.py` (synthesized music and effects; events tied to words in `sfx.json`; mixed under the voice). The voice is always the loudest thing; music and effects sit underneath.
 - **No voice** (OutwardAnimates style): your own `src/sound.py` driven by the scene table — ambient bed, soft booms on milestones, whooshes on cuts, scene atmosphere. Templates: `examples/*/src/sound.py`.
 
+- **Edit cut to one track** (Simply Animated style): a real royalty-free track of the same genre — not synthesized (synth phonk was rejected). Pixabay and similar libraries block bots: ask the user to download it. `scripts/beatgrid.py track.mp3` → BPM, first beat, drop; stretch it to the tempo of your cuts with `rubberband=tempo=<cut_bpm/track_bpm>` (pitch kept, ±5% is inaudible), start on the drop / a downbeat, run `beatgrid.py` on the result (the first beat should be at ~0 s). Template: `examples/simply-animated/src/music.sh`. Never the channel's own track: its licence (e.g. YouTube's Shorts library) doesn't cover your platform.
+
 Sound timings come from the same scene table as the video (the same constants).
 
 ## Rules
@@ -30,4 +32,5 @@ Sound timings come from the same scene table as the video (the same constants).
 - A rising Shepard tone felt out of place.
 - A broadband "server fan" noise layer read as plain hiss → removed, kept a quiet low hum.
 - A click + one second of silence at a blackout read as a bad edit → a soft low thump at the exact moment + a dip.
+- An edit-style video with numpy-synthesized phonk: "the music sucks" → a real royalty-free track fitted to the bars.
 - Milestone booms at +8–12 LU over the bed felt jarring → ~3× quieter; thresholds are now enforced by `loudness.py`.

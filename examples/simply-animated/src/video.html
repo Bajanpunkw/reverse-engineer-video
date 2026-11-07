@@ -1,0 +1,80 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:MS;src:url(fonts/Montserrat.ttf);font-weight:100 900}
+@font-face{font-family:OB;src:url(fonts/Orbitron.ttf);font-weight:400 900}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}
+#gl{position:absolute;inset:0}
+.lab,.ctr,.cal,.q,.ctr2,.fail,.win,.succ{position:absolute;transform:translate(-50%,-50%);color:#fff;white-space:nowrap;opacity:0}
+.lab{font-family:MS;font-weight:500;font-size:34px;letter-spacing:1px;text-transform:uppercase}
+.ctr{text-align:center;font-family:OB}
+.ctr .cn{font-weight:700;font-size:27px;letter-spacing:5px}
+.ctr .cd{margin-top:14px;font-size:30px;font-weight:600;letter-spacing:3px}
+.ctr .cd span{font-size:14px;letter-spacing:3px;color:#aaa}
+.cal{left:540px;top:560px;width:128px;height:136px;background:#f2f2f2;border-radius:10px;color:#111;text-align:center;font-family:OB;box-shadow:0 0 30px rgba(255,255,255,.25)}
+.cal .cm{font-size:20px;font-weight:700;letter-spacing:3px;margin-top:14px}
+.cal .cday{font-size:58px;font-weight:700;line-height:1;margin-top:8px}
+.q{left:540px;top:330px;text-align:center;font-family:MS;font-weight:400;font-size:40px;line-height:1.35}
+.ctr2{left:540px;top:520px;font-family:OB;font-size:22px;letter-spacing:4px;color:#888}
+.ctr2 b{color:#e33;font-weight:700}
+.fail{font-family:MS;font-weight:700;font-size:26px;letter-spacing:2px;color:#e01818}
+.win{font-family:MS;font-weight:700;font-size:50px;letter-spacing:4px;color:#00e000;text-shadow:0 0 18px rgba(0,255,0,.6)}
+.succ{font-family:MS;font-weight:600;font-size:40px;letter-spacing:3px;color:#ffd21a;text-shadow:0 0 22px rgba(255,200,0,.8)}
+#wm{position:absolute;left:540px;top:1508px;transform:translate(-50%,-50%);color:#555;font-family:MS;font-weight:500;font-size:22px;letter-spacing:0.5px}
+#fade{position:absolute;inset:0;background:#000;opacity:0}
+</style>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>
+</head><body>
+<div id="gl"></div>
+<div id="wm">@YOURHANDLE</div>
+<div id="fade"></div>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { scene1, scene2, scene3, scene4, scene5 } from './scenes.js';
+
+const W = 1080, H = 1920;
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(1); renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.getElementById('gl').appendChild(renderer.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0x000000);
+const camera = new THREE.OrthographicCamera(-W / 2, W / 2, H / 2, -H / 2, -2000, 2000); camera.position.z = 1000;
+scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(-0.8, 1.2, 1.0); scene.add(key);
+const rim = new THREE.DirectionalLight(0xffffff, 0.6); rim.position.set(1, 0.3, -0.4); scene.add(rim);
+const composer = new EffectComposer(renderer);
+composer.setPixelRatio(1); composer.setSize(W, H);
+composer.addPass(new RenderPass(scene, camera));
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(W, H), 0.45, 0.3, 0.82));
+composer.addPass(new OutputPass());
+
+// Timeline in bars: 94 BPM, bar = 4 beats. music.sh fits the track to the same numbers
+const BAR = 4 * 60 / 94;
+const CUTS = [0, 2.5, 5, 7.5, 10, 13.5].map(b => b * BAR);   // 0, 6.38, 12.77, 19.15, 25.53, 34.47
+const TOTAL = CUTS[5];
+const S = [scene1(scene), scene2(scene), scene3(scene), scene4(scene), scene5(scene)];
+const fade = document.getElementById('fade');
+const clamp01 = x => Math.max(0, Math.min(1, x));
+
+window.renderFrame = async (t) => {
+  let k = 0; while (k < 4 && t >= CUTS[k + 1]) k++;
+  const lt = t - CUTS[k];
+  S.forEach((s, i) => { s.root.visible = i === k; s.labs.forEach(l => l.style.opacity = i === k ? clamp01((lt - 0.1) / 0.3) : 0); });
+  S[k].update(lt);      // a scene overrides the opacity of its own moving captions
+  let f = clamp01(1 - t / 0.2);
+  for (let i = 1; i < 5; i++) f = Math.max(f, clamp01(1 - Math.abs(t - CUTS[i]) / 0.16));
+  f = Math.max(f, clamp01((t - (TOTAL - 0.5)) / 0.5));
+  fade.style.opacity = f;
+  composer.render();
+  await new Promise(r => requestAnimationFrame(() => r()));
+};
+window.TOTAL = TOTAL;
+await document.fonts.load('500 34px MS'); await document.fonts.load('700 30px OB');
+const q = new URLSearchParams(location.search);
+await window.renderFrame(parseFloat(q.get('t') ?? '3'));
+window.READY = true;
+</script>
+</body></html>

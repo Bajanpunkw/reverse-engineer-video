@@ -65,13 +65,19 @@ After the user's edits, append them as rules to the "Lessons" section of the rel
 | `node scripts/render.cjs <src> <outdir> --frames 2.5,10` + `python scripts/sheet.py <outdir>` | control frames + contact sheet |
 | `node scripts/render.cjs <src> <out.mp4> --end 49 --workers 2` | full render (or a piece: `--start 24.5 --end 41`) |
 | `python scripts/tts.py` / `python scripts/score.py` | narrator voice with word timings / music + SFX + voice mix (2D narrated styles) |
+| `python scripts/beatgrid.py <track>` | tempo, first beat, downbeat, drop, loudness per beat — for cutting scenes to music and fitting a track to the cuts |
 | `python scripts/loudness.py <in.wav> <out.wav>` / `--check <file>` | final loudness + threshold check |
 | `bash scripts/mux.sh <video> <wav> <final>` | put sound on video without re-rendering |
 | `server/` | optional Docker render server (`server/README.md`) |
 
 ## Examples
 
-Both examples recreate the style of [OutwardAnimates](https://www.youtube.com/@outwardanimates) (stylized hazy 3D + a serif HUD with a number that never stops climbing). Style spec: `examples/outwardanimates-style.md`.
+Two very different styles:
+
+- [OutwardAnimates](https://www.youtube.com/@outwardanimates) — stylized hazy 3D + a serif HUD with a number that never stops climbing. Style spec: `examples/outwardanimates-style.md`.
+- [Simply Animated](https://www.youtube.com/@SimplyAnimatedVisuals) — glowing "clay" stick figures on black, "A vs B" halves, an edit cut to one phonk track. Style spec + scenes: `examples/simply-animated/README.md`.
+
 
 - `examples/data-center/` — mode A: "What if a data center doubled its power every 2 seconds?" (107 s, made before the 60 s rule): GPU → server hall → suburb blackout → night Earth → the Sun.
 - `examples/x-followers/` — mode B: "What if your X account doubled its followers every second?" (49 s): mom → street → stadium → city → Earth → the Milky Way. Approved without a single visual or sound edit — use it as the reference run.
+- `examples/simply-animated/` — mode A: "AI builder edition" (34 s): five "A vs B" parables cut on bars of 94 BPM, a real track fitted with `beatgrid.py` + `music.sh`. `src/rig.js` is the reusable stick-figure rig (IK, walking on stairs and slopes) — start from it for any style with characters.

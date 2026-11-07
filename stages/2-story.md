@@ -28,4 +28,6 @@ A TIME-LAPSE tag is only needed when the ladder doesn't fit the length. A simple
 
 ## Lessons
 
+- "A vs B" styles: the "right" half must be the same action as the left with a different outcome (push → the boulder rolls back / push → a stopper holds it). An abstract mechanism (a boulder riding a conveyor belt by itself) wasn't understood. The metaphor must read without explanation.
+
 - Vertical videos ≤ 60 s — there is no point stretching them. With "doubles every 2 s" the trip from 1 to 8 billion alone takes 66 s; doubling every second fits.

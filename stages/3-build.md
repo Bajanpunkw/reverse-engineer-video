@@ -27,6 +27,10 @@
 
 ## Pitfalls already hit
 
+- **Characters with limbs:** start from `examples/simply-animated/src/rig.js` — capsule figure, `pose()` by angles, `poseIK()` by targets (feet on steps, hands on objects), `walker()` for walking/climbing on any `ground(x)`. With angle-only poses the feet sink into stairs and slopes.
+- **Cut scenes on bars** when the style is an edit to music: put the cut times in bars (`CUTS = [0, 2.5, 5, …].map(b => b * BAR)`) and fit the track to the same numbers in stage 5.
+- A long render and one bad scene: render only that time range (`--start/--end`) and splice it into `video-full.mp4` frame-exactly with ffmpeg `trim=start_frame/end_frame` + `concat`, instead of re-rendering everything.
+
 - A dark, low-contrast image with small text is unreadable on a phone: check by downscaling a frame to 360 px wide.
 - Captions must not cover the key object or the platform UI (the bottom ~250 px of a vertical frame is covered by Shorts/Reels/X buttons).
 - Numbers with units: English formatting (1,024; 2.9 MW), abbreviations like the original.

@@ -11,7 +11,9 @@ Goal: `style.md` precise enough to build the style without re-watching the origi
 
 1. `python scripts/pulse.py <video> <tmp>/pulse-<name>` — cuts per minute, average shot, share of still frames, longest still run, first visual change, silences, words per minute, one-frame-per-second sheet.
 2. Speech: `pulse.py --words <subs.vtt>` with the auto-subtitles from fetch.sh, or faster-whisper. No speech — write that down ("the story is told only by on-screen text").
-3. Key frames at full resolution (`ffmpeg -ss T -i video -frames:v 1 key.png`): one per screen type (overlay on a plain background, wide shot, close-up, transition, ending).
+3. **Retention:** some videos' `info.json` (fetch.sh) carry a `heatmap` — YouTube's "most replayed" curve (for Shorts it is effectively a retention curve). Save it to `analysis/heatmap-<id>.json` and note where it drops: the first scene must hold through the steepest drop (Simply Animated: 1.0 → 0.25 in the first 2 s).
+4. **Music:** tempo (BPM) and downbeats of the soundtrack — `python scripts/beatgrid.py <video.mp4>`. Scene lengths are often a whole number of bars (Simply Animated: 94 BPM, a scene = 2 bars ≈ 5.1 s). If every video of the channel uses the same track, the track is part of the style — note genre and tempo; you'll use your own track (stage 5), never theirs.
+5. Key frames at full resolution (`ffmpeg -ss T -i video -frames:v 1 key.png`): one per screen type (overlay on a plain background, wide shot, close-up, transition, ending).
 
 ## Style spec (`style.md`) — sections
 
@@ -33,4 +35,5 @@ Build one sample frame — the most recognizable screen (usually the overlay on 
 ## Lessons
 
 - Giant old channels (TED-Ed, OverSimplified) are good style references but bad pacing references: their views were earned over years. Measure pacing on young channels with short videos.
+- "Flat" doesn't always mean canvas 2D: glowing "clay" figures (Simply Animated) are three.js with an orthographic camera + soft light + bloom. If the user asks "is this 3D?" — the camera is orthographic, the image is flat; three.js is there for shading and glow.
 - Subtitles from YouTube auto-captions give approximate word timings; good enough for words/min, not for per-word sync.
