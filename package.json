@@ -1,0 +1,11 @@
+{
+  "name": "recreate-any-video",
+  "private": true,
+  "description": "Claude Code skill: recreate the visual style of a video in code (three.js / canvas → mp4)",
+  "license": "MIT",
+  "dependencies": {
+    "ffmpeg-static": "5.2.0",
+    "puppeteer": "23.11.1",
+    "three": "0.170.0"
+  }
+}

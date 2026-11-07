@@ -1,0 +1,104 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}
+#gl{position:absolute;inset:0}
+#gl canvas{display:block;filter:blur(0.7px)}
+#vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 75% 60% at 50% 55%,rgba(0,0,0,0) 55%,rgba(0,0,0,.35) 100%)}
+#fade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+</style>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js"}}</script>
+</head><body>
+<div id="gl"></div><div id="vig"></div><div id="fade"></div>
+<script type="module">
+import * as THREE from 'three';
+import { makeEarth, makeCity, makeGalaxy } from './scenes.js';
+import { createHUD } from './hud.js';
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(1080, 1920); renderer.setPixelRatio(1); renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+document.getElementById('gl').appendChild(renderer.domElement);
+const hud = createHUD(document.body);
+const fade = document.getElementById('fade');
+const earth = makeEarth(), city = makeCity(), galaxy = makeGalaxy();
+
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const ease = x => x * x * (3 - 2 * x);
+const win = (t, a, b, f = 0.3) => clamp01((t - a) / f) * clamp01((b - t) / f);
+
+// followers: 1 at t = 2 s, then ×2 every second
+const T0 = 2, followers = t => Math.pow(2, Math.max(0, t - T0));
+const CUT_EARTH = 24.5, CUT_GALAXY = 41, END = 45.2, TOTAL = 49;
+
+const CAPS = [
+  [2.2, 6.6, "Your first follower. It's your mom."],
+  [7.0, 11.6, 'A whole classroom.'],
+  [12.0, 17.6, 'A packed high school.'],
+  [18.0, 21.6, 'A sold-out stadium.'],
+  [22.0, 25.6, 'A whole city.'],
+  [26.0, 30.6, 'More than the Netherlands.'],
+  [31.0, 34.6, 'Everyone on X.'],
+  [35.0, 38.6, 'Every human on Earth follows you.'],
+  [39.0, 41.6, 'Everyone who has ever lived.'],
+  [42.0, 45.0, 'More than every star in the Milky Way.'],
+];
+const TAGS = [[35, END, 'Past the max']];
+const POP = 8.3e9, X_USERS = 5.5e8, ELON = 2.41e8, NL = 1.8e7, EVER = 1.17e11, MW = 4e11;
+
+function n(x) { x = Math.floor(x); if (x < 1e9) return x.toLocaleString('en-US');
+  return x >= 1e12 ? (x / 1e12).toFixed(1) + ' trillion' : (x / 1e9).toFixed(1) + ' billion'; }
+function line1(F) {
+  if (F < 2) return 'Your mom';
+  if (F < 32) return 'Family and friends';
+  if (F < 1024) return 'A classroom';
+  if (F < 65536) return 'A high school';
+  if (F < 1e6) return 'A sold-out stadium';
+  if (F < NL) return 'A whole city';
+  if (F < ELON) return 'More than the Netherlands';
+  if (F < X_USERS) return 'More than the most-followed account';
+  if (F < POP) return 'More than everyone on X';
+  if (F < EVER) return 'Every human alive';
+  if (F < MW) return 'Everyone who ever lived';
+  return 'More than the stars in the Milky Way';
+}
+function hudState(v) {
+  const F = followers(v);
+  const s = { P: F, label: 'Followers', blockA: clamp01((v - 1.9) / 0.4) * (1 - clamp01((v - END) / 0.4)), introA: win(v, 0.2, 1.9, 0.3),
+    intro: 'What if your X account<br>doubled its followers<br>every second?', endA: clamp01((v - END - 0.6) / 0.5), end: 'So what should<br>we double next?' };
+  s.l1 = line1(F);
+  s.l2 = F < 2 ? 'Doubling every second' : `+${n(F / 2)} in the last second`;
+  for (const [a, b, txt] of CAPS) { const k = win(v, a, b); if (k > 0) { s.cap = txt; s.capA = k; } }
+  for (const [a, b, txt] of TAGS) if (v >= a && v < b) { s.tag = txt; s.tagA = 1; }
+  s.boost = v >= CUT_GALAXY ? 0.3 : 0;
+  return s;
+}
+
+// where the crowd starts spreading over land (a point facing the camera)
+const REGION = new THREE.Vector3(0.18, 0.40, 0.90);
+window.renderFrame = async (v) => {
+  const F = followers(v); let sc;
+  if (v < 1.9) { earth.update(v / 1.9 * 0.4, { offAngle: -1 }); sc = earth; }
+  else if (v < CUT_EARTH) { city.update(v, F); sc = city; }
+  else if (v < CUT_GALAXY) {
+    const k = (v - CUT_EARTH) / (CUT_GALAXY - CUT_EARTH);
+    // covered share of land = F / population → angular radius of the cap: (1 − cos θ)/2 = share
+    const frac = clamp01(F / POP), theta = frac >= 1 ? Math.PI : Math.acos(1 - 2 * frac);
+    const back = ease(clamp01((v - 37) / 4));                     // pull back at the end of the scene
+    const push = ease(clamp01((v - CUT_EARTH) / 12));             // slow push-in, the globe keeps turning
+    earth.update(0.4 + k * 0.6, { dist: 3.3 - 0.55 * push + 3.8 * back, lookY: 0.55 * (1 - back), drift: 0.6, spin: 0.55, offAngle: theta + (frac >= 1 ? 0.3 : 0), regionWorld: REGION,
+      lightsOn: ease(clamp01((v - 38.6) / 1.2)) });
+    sc = earth;
+  } else { galaxy.update(clamp01((v - CUT_GALAXY) / (END - CUT_GALAXY + 1))); sc = galaxy; }
+  fade.style.opacity = v < 0.3 ? 1 - v / 0.3 : (v > END ? clamp01((v - END) / 0.5) : 0);
+  renderer.render(sc.scene, sc.camera);
+  hud.set(hudState(v));
+  await new Promise(r => requestAnimationFrame(() => r()));
+};
+window.TOTAL = TOTAL;
+await hud.ready();
+const q = new URLSearchParams(location.search);
+await window.renderFrame(parseFloat(q.get('t') ?? '5'));
+window.READY = true;
+</script>
+</body></html>

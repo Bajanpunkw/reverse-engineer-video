@@ -1,0 +1,5 @@
+numpy>=1.26
+pillow>=10.0
+yt-dlp>=2024.12.1
+edge-tts>=6.1.12      # only for videos with a narrator
+faster-whisper>=1.0   # optional: transcribe the original's narration

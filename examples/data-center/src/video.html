@@ -1,0 +1,121 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}
+#gl{position:absolute;inset:0}
+#gl canvas{display:block;filter:blur(0.7px)}
+#vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 75% 60% at 50% 55%,rgba(0,0,0,0) 55%,rgba(0,0,0,.35) 100%)}
+#fade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+</style>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js"}}</script>
+</head><body>
+<div id="gl"></div><div id="vig"></div><div id="fade"></div>
+<script type="module">
+import * as THREE from 'three';
+import { makeEarth, makeHall, makeTown, makeSun } from './scenes.js';
+import { createHUD } from './hud.js';
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(1080, 1920); renderer.setPixelRatio(1); renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+document.getElementById('gl').appendChild(renderer.domElement);
+const hud = createHUD(document.body);
+const fade = document.getElementById('fade');
+const earth = makeEarth(), hall = makeHall(), town = makeTown(), sunScene = makeSun();
+
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const ease = x => x * x * (3 - 2 * x);
+const P0 = 700, T0 = 5;
+const power = st => P0 * Math.pow(2, Math.max(0, st - T0) / 2);
+const win = (t, a, b, f = 0.3) => clamp01((t - a) / f) * clamp01((b - t) / f);
+
+// video time v → story time st (after 74 s time is compressed, shown with a TIME-LAPSE tag like the original)
+const SEG = [[0, 0, 1], [74, 74, 2.5], [84, 99, 1], [87, 102, (160.7 - 102) / 12], [99, 160.7, 1], [103, 164.7, 0]];
+function story(v) { let r = SEG[0]; for (const g of SEG) if (v >= g[0]) r = g; return r[1] + (v - r[0]) * r[2]; }
+const END = 103, TOTAL = 107.5;
+
+// milestone captions, by video time
+const CAPS = [
+  [3.4, 5.8, 'One GPU. 700 watts.'],
+  [6.0, 9.0, 'Now double it. Every 2 seconds.'],
+  [9.2, 12.6, 'Already more than two American homes.'],
+  [12.9, 16.8, "Now it's a full AI server."],
+  [17.0, 20.8, 'A whole rack. It needs its own cooling.'],
+  [21.0, 24.8, 'A row of racks. The fans are screaming.'],
+  [25.0, 28.8, 'The whole hall.'],
+  [29.2, 32.8, 'Every chiller on the roof is maxed out.'],
+  [33.0, 38.8, 'As much power as 9,000 homes.'],
+  [39.2, 42.4, 'As much as 84,000 homes.'],
+  [42.6, 45.6, "The local grid can't keep up."],
+  [45.9, 49.5, "A nuclear reactor's worth. The town goes dark."],
+  [50.4, 54.8, 'Every 2 seconds, it pulls twice as hard.'],
+  [55.0, 59.4, 'City after city goes dark.'],
+  [59.6, 63.4, 'Whole regions disappear from the map.'],
+  [63.6, 67.2, "All of America's electricity."],
+  [67.4, 72.0, 'Every power plant on Earth.'],
+  [72.3, 76.4, 'All the energy humans use. And it keeps doubling.'],
+  [76.6, 83.6, 'There is nothing left on Earth to burn.'],
+  [84.0, 88.6, 'All the sunlight that hits Earth.'],
+  [88.8, 98.6, 'Next stop: the source.'],
+  [99.0, 102.8, 'The entire Sun.'],
+];
+const TAGS = [[72.3, 74, 'Past the max'], [74, 84, 'Time-lapse 2.5x'], [84, 87, 'Real time'], [87, 99, 'Time-lapse 5x'], [99, 103, 'Real time']];
+
+const n0 = x => x < 10 ? x.toFixed(1) : Math.round(x).toLocaleString('en-US');
+function big(x) {  // big numbers in words: 146 TRILLION
+  const W = [[1e24, 'septillion'], [1e21, 'sextillion'], [1e18, 'quintillion'], [1e15, 'quadrillion'], [1e12, 'trillion'], [1e9, 'billion'], [1e6, 'million']];
+  for (const [v, w] of W) if (x >= v) return `${n0(x / v)} ${w}`;
+  return n0(x);
+}
+const US = 4.65e11, WORLD_E = 3.51e12, HUMAN = 1.87e13, SUNLIGHT = 1.735e17, SUN = 3.828e26;
+
+function hudState(v) {
+  const st = story(v), P = power(st);
+  const s = { P, label: 'Power', blockA: clamp01((v - 3.2) / 0.4) * (1 - clamp01((v - END) / 0.4)), introA: win(v, 0.25, 2.8, 0.35),
+    intro: 'What if a data center<br>doubled its power<br>every 2 seconds?', endA: clamp01((v - END - 0.6) / 0.5), end: 'So what should<br>we power next?' };
+  const homes = P / 1185;
+  if (v < 12.7) s.l1 = 'Doubling every 2 seconds';
+  else if (P < 1e9) s.l1 = `≈ ${big(P / 10200)} AI servers`;
+  else if (P < US) s.l1 = `≈ ${big(P / 1e9)} nuclear reactors`;
+  else if (P < WORLD_E) s.l1 = `${n0(P / US)}× America's electricity`;
+  else if (P < HUMAN) s.l1 = `${n0(P / WORLD_E)}× all electricity on Earth`;
+  else if (P < SUNLIGHT) s.l1 = `${big(P / HUMAN)}× all human energy use`;
+  else if (P < SUN) s.l1 = `${big(P / SUNLIGHT)}× all sunlight on Earth`;
+  else s.l1 = `${n0(P / SUN)}× the output of the Sun`;
+  s.l2 = `≈ ${big(homes)} US homes · ${big(P / 700)} GPUs`;
+  for (const [a, b, txt] of CAPS) { const k = win(v, a, b); if (k > 0) { s.cap = txt; s.capA = k; } }
+  for (const [a, b, txt] of TAGS) if (v >= a && v < b) { s.tag = txt; s.tagA = 1; }
+  s.boost = clamp01((v - 80) / 4);   // bright scenes and the Sun: darker backdrop behind the text
+  return s;
+}
+
+// blackout centre on the globe: a land point facing the camera
+const REGION = new THREE.Vector3(-0.25, 0.42, 0.87);
+window.renderFrame = async (v) => {
+  const st = story(v); let sc;
+  if (v < 3.2) { earth.update(v / 3.2, {}); sc = earth; }
+  else if (v < 29) { hall.update(v, power(v)); sc = hall; }
+  else if (v < 49.6) { town.update(v, power(v)); sc = town; }
+  else if (v < 74) {   // night Earth: lights go out in a growing patch, then everywhere
+    const k = (v - 49.6) / (74 - 49.6);
+    const off = v < 63.6 ? 0.06 + 0.55 * ease(clamp01((v - 50.2) / 13.4)) : 0.61 + (Math.PI - 0.61) * ease(clamp01((v - 63.6) / 3.8));
+    earth.update(k, { dist: 3.0 - 0.25 * k, lookY: 0.55, drift: 0.05, spin: 0.08, night: 1, offAngle: off, regionWorld: REGION });
+    sc = earth;
+  } else if (v < 87) {  // move to the day side, light grows to "all the sunlight"
+    const k = (v - 74) / 13;
+    earth.update(0.5 + k * 0.5, { dist: 3.0 + 1.6 * ease(k), lookY: 0.3 * (1 - ease(k)), night: 1 - ease(clamp01(k * 1.6)), offAngle: Math.PI, regionWorld: REGION,
+      glare: 0.75 * ease(clamp01((v - 80) / 5)), spin: 0.6 });
+    sc = earth;
+  } else { sunScene.update(clamp01((v - 87) / 14), v); sc = sunScene; }
+  fade.style.opacity = v < 0.3 ? 1 - v / 0.3 : (v > END ? clamp01((v - END) / 0.5) : 0);
+  renderer.render(sc.scene, sc.camera);
+  hud.set(hudState(v));
+  await new Promise(r => requestAnimationFrame(() => r()));
+};
+window.TOTAL = TOTAL;
+await hud.ready();
+const q = new URLSearchParams(location.search);
+await window.renderFrame(parseFloat(q.get('t') ?? '5'));
+window.READY = true;
+</script>
+</body></html>
