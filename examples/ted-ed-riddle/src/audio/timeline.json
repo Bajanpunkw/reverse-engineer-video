@@ -1,0 +1,715 @@
+{
+ "duration": 41.583,
+ "lines": [
+  {
+   "id": "s1",
+   "text": "In seventeen minutes, an avalanche will wipe this ledge off the mountain.",
+   "start": 0.35,
+   "end": 4.683,
+   "words": [
+    {
+     "w": "In",
+     "start": 0.35,
+     "end": 0.424
+    },
+    {
+     "w": "seventeen",
+     "start": 0.424,
+     "end": 0.902
+    },
+    {
+     "w": "minutes",
+     "start": 0.902,
+     "end": 1.333
+    },
+    {
+     "w": "an",
+     "start": 1.697,
+     "end": 1.856
+    },
+    {
+     "w": "avalanche",
+     "start": 1.867,
+     "end": 2.458
+    },
+    {
+     "w": "will",
+     "start": 2.47,
+     "end": 2.617
+    },
+    {
+     "w": "wipe",
+     "start": 2.617,
+     "end": 2.947
+    },
+    {
+     "w": "this",
+     "start": 2.958,
+     "end": 3.163
+    },
+    {
+     "w": "ledge",
+     "start": 3.163,
+     "end": 3.697
+    },
+    {
+     "w": "off",
+     "start": 3.97,
+     "end": 4.186
+    },
+    {
+     "w": "the",
+     "start": 4.197,
+     "end": 4.265
+    },
+    {
+     "w": "mountain",
+     "start": 4.265,
+     "end": 4.697
+    }
+   ]
+  },
+  {
+   "id": "s2",
+   "text": "Four hikers are stuck on it, with one lantern between them.",
+   "start": 4.933,
+   "end": 7.561,
+   "words": [
+    {
+     "w": "Four",
+     "start": 4.933,
+     "end": 5.043
+    },
+    {
+     "w": "hikers",
+     "start": 5.043,
+     "end": 5.361
+    },
+    {
+     "w": "are",
+     "start": 5.361,
+     "end": 5.452
+    },
+    {
+     "w": "stuck",
+     "start": 5.452,
+     "end": 5.736
+    },
+    {
+     "w": "on",
+     "start": 5.736,
+     "end": 5.895
+    },
+    {
+     "w": "it",
+     "start": 5.895,
+     "end": 6.02
+    },
+    {
+     "w": "with",
+     "start": 6.258,
+     "end": 6.383
+    },
+    {
+     "w": "one",
+     "start": 6.395,
+     "end": 6.668
+    },
+    {
+     "w": "lantern",
+     "start": 6.668,
+     "end": 6.986
+    },
+    {
+     "w": "between",
+     "start": 6.986,
+     "end": 7.327
+    },
+    {
+     "w": "them",
+     "start": 7.338,
+     "end": 7.543
+    }
+   ]
+  },
+  {
+   "id": "s3",
+   "text": "The only way off is an old rope bridge.",
+   "start": 7.811,
+   "end": 9.698,
+   "words": [
+    {
+     "w": "The",
+     "start": 7.811,
+     "end": 7.873
+    },
+    {
+     "w": "only",
+     "start": 7.885,
+     "end": 8.089
+    },
+    {
+     "w": "way",
+     "start": 8.101,
+     "end": 8.305
+    },
+    {
+     "w": "off",
+     "start": 8.305,
+     "end": 8.578
+    },
+    {
+     "w": "is",
+     "start": 8.623,
+     "end": 8.714
+    },
+    {
+     "w": "an",
+     "start": 8.714,
+     "end": 8.794
+    },
+    {
+     "w": "old",
+     "start": 8.805,
+     "end": 8.998
+    },
+    {
+     "w": "rope",
+     "start": 8.998,
+     "end": 9.214
+    },
+    {
+     "w": "bridge",
+     "start": 9.214,
+     "end": 9.646
+    }
+   ]
+  },
+  {
+   "id": "s4",
+   "text": "It holds two people at a time, and in this dark, nobody crosses without the lantern.",
+   "start": 9.898,
+   "end": 14.786,
+   "words": [
+    {
+     "w": "It",
+     "start": 9.898,
+     "end": 9.953
+    },
+    {
+     "w": "holds",
+     "start": 9.964,
+     "end": 10.305
+    },
+    {
+     "w": "two",
+     "start": 10.316,
+     "end": 10.634
+    },
+    {
+     "w": "people",
+     "start": 10.646,
+     "end": 11.009
+    },
+    {
+     "w": "at",
+     "start": 11.009,
+     "end": 11.066
+    },
+    {
+     "w": "a",
+     "start": 11.078,
+     "end": 11.112
+    },
+    {
+     "w": "time",
+     "start": 11.112,
+     "end": 11.509
+    },
+    {
+     "w": "and",
+     "start": 11.896,
+     "end": 11.975
+    },
+    {
+     "w": "in",
+     "start": 11.987,
+     "end": 12.1
+    },
+    {
+     "w": "this",
+     "start": 12.112,
+     "end": 12.305
+    },
+    {
+     "w": "dark",
+     "start": 12.305,
+     "end": 12.646
+    },
+    {
+     "w": "nobody",
+     "start": 13.021,
+     "end": 13.43
+    },
+    {
+     "w": "crosses",
+     "start": 13.43,
+     "end": 13.919
+    },
+    {
+     "w": "without",
+     "start": 13.919,
+     "end": 14.294
+    },
+    {
+     "w": "the",
+     "start": 14.294,
+     "end": 14.362
+    },
+    {
+     "w": "lantern",
+     "start": 14.373,
+     "end": 14.782
+    }
+   ]
+  },
+  {
+   "id": "s5",
+   "text": "Mia crosses in one minute.",
+   "start": 15.136,
+   "end": 16.516,
+   "words": [
+    {
+     "w": "Mia",
+     "start": 15.136,
+     "end": 15.367
+    },
+    {
+     "w": "crosses",
+     "start": 15.378,
+     "end": 15.867
+    },
+    {
+     "w": "in",
+     "start": 15.878,
+     "end": 15.98
+    },
+    {
+     "w": "one",
+     "start": 15.98,
+     "end": 16.151
+    },
+    {
+     "w": "minute",
+     "start": 16.151,
+     "end": 16.469
+    }
+   ]
+  },
+  {
+   "id": "s6",
+   "text": "Leo, in two.",
+   "start": 16.666,
+   "end": 17.433,
+   "words": [
+    {
+     "w": "Leo",
+     "start": 16.666,
+     "end": 16.911
+    },
+    {
+     "w": "in",
+     "start": 16.934,
+     "end": 17.036
+    },
+    {
+     "w": "two",
+     "start": 17.048,
+     "end": 17.388
+    }
+   ]
+  },
+  {
+   "id": "s7",
+   "text": "Sam, the cook, in five.",
+   "start": 17.583,
+   "end": 18.806,
+   "words": [
+    {
+     "w": "Sam",
+     "start": 17.583,
+     "end": 17.823
+    },
+    {
+     "w": "the",
+     "start": 17.823,
+     "end": 17.903
+    },
+    {
+     "w": "cook",
+     "start": 17.903,
+     "end": 18.153
+    },
+    {
+     "w": "in",
+     "start": 18.175,
+     "end": 18.266
+    },
+    {
+     "w": "five",
+     "start": 18.278,
+     "end": 18.755
+    }
+   ]
+  },
+  {
+   "id": "s8",
+   "text": "And Grandma Rose takes ten.",
+   "start": 18.956,
+   "end": 20.544,
+   "words": [
+    {
+     "w": "And",
+     "start": 18.956,
+     "end": 19.007
+    },
+    {
+     "w": "Grandma",
+     "start": 19.019,
+     "end": 19.473
+    },
+    {
+     "w": "Rose",
+     "start": 19.473,
+     "end": 19.859
+    },
+    {
+     "w": "takes",
+     "start": 19.871,
+     "end": 20.132
+    },
+    {
+     "w": "ten",
+     "start": 20.132,
+     "end": 20.484
+    }
+   ]
+  },
+  {
+   "id": "s9",
+   "text": "When two walk together, they move at the slower one's pace.",
+   "start": 20.844,
+   "end": 23.975,
+   "words": [
+    {
+     "w": "When",
+     "start": 20.844,
+     "end": 20.949
+    },
+    {
+     "w": "two",
+     "start": 20.949,
+     "end": 21.165
+    },
+    {
+     "w": "walk",
+     "start": 21.176,
+     "end": 21.494
+    },
+    {
+     "w": "together",
+     "start": 21.494,
+     "end": 21.892
+    },
+    {
+     "w": "they",
+     "start": 22.256,
+     "end": 22.358
+    },
+    {
+     "w": "move",
+     "start": 22.358,
+     "end": 22.699
+    },
+    {
+     "w": "at",
+     "start": 22.699,
+     "end": 22.756
+    },
+    {
+     "w": "the",
+     "start": 22.756,
+     "end": 22.824
+    },
+    {
+     "w": "slower",
+     "start": 22.824,
+     "end": 23.21
+    },
+    {
+     "w": "one's",
+     "start": 23.21,
+     "end": 23.426
+    },
+    {
+     "w": "pace",
+     "start": 23.426,
+     "end": 23.96
+    }
+   ]
+  },
+  {
+   "id": "s10",
+   "text": "The obvious plan: Mia walks everyone across, and brings the lantern back each time.",
+   "start": 24.275,
+   "end": 29.006,
+   "words": [
+    {
+     "w": "The",
+     "start": 24.275,
+     "end": 24.331
+    },
+    {
+     "w": "obvious",
+     "start": 24.342,
+     "end": 24.717
+    },
+    {
+     "w": "plan",
+     "start": 24.717,
+     "end": 25.081
+    },
+    {
+     "w": "Mia",
+     "start": 25.558,
+     "end": 25.819
+    },
+    {
+     "w": "walks",
+     "start": 25.819,
+     "end": 26.206
+    },
+    {
+     "w": "everyone",
+     "start": 26.319,
+     "end": 26.626
+    },
+    {
+     "w": "across",
+     "start": 26.626,
+     "end": 27.183
+    },
+    {
+     "w": "and",
+     "start": 27.524,
+     "end": 27.581
+    },
+    {
+     "w": "brings",
+     "start": 27.581,
+     "end": 27.808
+    },
+    {
+     "w": "the",
+     "start": 27.808,
+     "end": 27.887
+    },
+    {
+     "w": "lantern",
+     "start": 27.899,
+     "end": 28.194
+    },
+    {
+     "w": "back",
+     "start": 28.194,
+     "end": 28.512
+    },
+    {
+     "w": "each",
+     "start": 28.512,
+     "end": 28.671
+    },
+    {
+     "w": "time",
+     "start": 28.671,
+     "end": 29.001
+    }
+   ]
+  },
+  {
+   "id": "s11",
+   "text": "Ten. One. Five. One. Two.",
+   "start": 29.206,
+   "end": 32.355,
+   "words": [
+    {
+     "w": "Ten",
+     "start": 29.206,
+     "end": 29.508
+    },
+    {
+     "w": "One",
+     "start": 29.872,
+     "end": 30.179
+    },
+    {
+     "w": "Five",
+     "start": 30.611,
+     "end": 30.963
+    },
+    {
+     "w": "One",
+     "start": 31.338,
+     "end": 31.668
+    },
+    {
+     "w": "Two",
+     "start": 32.031,
+     "end": 32.293
+    }
+   ]
+  },
+  {
+   "id": "s12",
+   "text": "Nineteen minutes.",
+   "start": 32.555,
+   "end": 33.414,
+   "words": [
+    {
+     "w": "Nineteen",
+     "start": 32.555,
+     "end": 32.928
+    },
+    {
+     "w": "minutes",
+     "start": 32.928,
+     "end": 33.371
+    }
+   ]
+  },
+  {
+   "id": "s13",
+   "text": "Two minutes too late.",
+   "start": 33.564,
+   "end": 34.416,
+   "words": [
+    {
+     "w": "Two",
+     "start": 33.564,
+     "end": 33.644
+    },
+    {
+     "w": "minutes",
+     "start": 33.644,
+     "end": 33.859
+    },
+    {
+     "w": "too",
+     "start": 33.859,
+     "end": 34.075
+    },
+    {
+     "w": "late",
+     "start": 34.075,
+     "end": 34.371
+    }
+   ]
+  },
+  {
+   "id": "s14",
+   "text": "But there is a way to get all four across in seventeen.",
+   "start": 34.916,
+   "end": 37.527,
+   "words": [
+    {
+     "w": "But",
+     "start": 34.916,
+     "end": 34.954
+    },
+    {
+     "w": "there",
+     "start": 34.954,
+     "end": 35.045
+    },
+    {
+     "w": "is",
+     "start": 35.045,
+     "end": 35.114
+    },
+    {
+     "w": "a",
+     "start": 35.114,
+     "end": 35.159
+    },
+    {
+     "w": "way",
+     "start": 35.159,
+     "end": 35.284
+    },
+    {
+     "w": "to",
+     "start": 35.284,
+     "end": 35.341
+    },
+    {
+     "w": "get",
+     "start": 35.341,
+     "end": 35.5
+    },
+    {
+     "w": "all",
+     "start": 35.511,
+     "end": 35.761
+    },
+    {
+     "w": "four",
+     "start": 35.773,
+     "end": 36.079
+    },
+    {
+     "w": "across",
+     "start": 36.079,
+     "end": 36.682
+    },
+    {
+     "w": "in",
+     "start": 36.784,
+     "end": 36.875
+    },
+    {
+     "w": "seventeen",
+     "start": 36.875,
+     "end": 37.477
+    }
+   ]
+  },
+  {
+   "id": "s15",
+   "text": "Can you find it?",
+   "start": 37.827,
+   "end": 38.382,
+   "words": [
+    {
+     "w": "Can",
+     "start": 37.827,
+     "end": 37.893
+    },
+    {
+     "w": "you",
+     "start": 37.904,
+     "end": 37.984
+    },
+    {
+     "w": "find",
+     "start": 37.984,
+     "end": 38.234
+    },
+    {
+     "w": "it",
+     "start": 38.245,
+     "end": 38.381
+    }
+   ]
+  }
+ ]
+}

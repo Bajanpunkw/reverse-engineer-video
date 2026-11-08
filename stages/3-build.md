@@ -39,6 +39,11 @@
 - Layers over the important thing (clouds over the crowd on Earth) — part them, or the event is invisible.
 - Place the next set piece where the camera is already looking (the stadium behind the house), or it slides in from the edge, huge and cut off.
 
+- 2D canvas (TED-Ed run): `ctx.filter = 'blur()'` on every frame slows rendering ~5× (0.12 → 0.65 s/frame). Bake anything static (cliffs, shading, sky) into an offscreen canvas once at load; blur per frame only what moves.
+- Draw background textures with margin for the whole camera path — a tilt from above exposed a dark band at the top where the sky texture ended.
+- Captions above something that enters the frame (an avalanche) — fade them out before it arrives; a white flash goes to pure white in 3–4 frames, never a milky half-white.
+- "Only the lantern circle is lit": everything outside is fully opaque; characters in the dark are drawn on top as black silhouettes with white eyes, otherwise they look like 25% ghosts.
+
 ## Lessons
 
 - A 3D hall that's too dark reads as a black blob → lighter, with haze.

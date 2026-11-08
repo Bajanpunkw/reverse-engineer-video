@@ -1,0 +1,17 @@
+{"lead": 0.35, "tail": 3.2, "trim": true, "lines": [
+ {"id": "s1", "text": "In seventeen minutes, an avalanche will wipe this ledge off the mountain.", "gap": 0.25},
+ {"id": "s2", "text": "Four hikers are stuck on it, with one lantern between them.", "gap": 0.25},
+ {"id": "s3", "text": "The only way off is an old rope bridge.", "gap": 0.2},
+ {"id": "s4", "text": "It holds two people at a time, and in this dark, nobody crosses without the lantern.", "gap": 0.35},
+ {"id": "s5", "text": "Mia crosses in one minute.", "gap": 0.15},
+ {"id": "s6", "text": "Leo, in two.", "gap": 0.15},
+ {"id": "s7", "text": "Sam, the cook, in five.", "gap": 0.15},
+ {"id": "s8", "text": "And Grandma Rose takes ten.", "gap": 0.3},
+ {"id": "s9", "text": "When two walk together, they move at the slower one's pace.", "gap": 0.3},
+ {"id": "s10", "text": "The obvious plan: Mia walks everyone across, and brings the lantern back each time.", "gap": 0.2},
+ {"id": "s11", "text": "Ten. One. Five. One. Two.", "gap": 0.2},
+ {"id": "s12", "text": "Nineteen minutes.", "gap": 0.15},
+ {"id": "s13", "text": "Two minutes too late.", "gap": 0.5},
+ {"id": "s14", "text": "But there is a way to get all four across in seventeen.", "gap": 0.3},
+ {"id": "s15", "text": "Can you find it?", "gap": 0.0}
+]}

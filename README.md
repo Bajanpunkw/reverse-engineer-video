@@ -6,13 +6,14 @@ A [Claude Code](https://claude.com/claude-code) skill that recreates the **visua
 
 No AI video generation and no footage from the original: the agent studies the original frame by frame, writes a style spec, builds the scenes in three.js / canvas, renders them frame by frame in headless Chrome, synthesizes the soundtrack, and checks its own frames against the original before showing you anything.
 
-| `examples/x-followers/preview.mp4` | `examples/data-center/preview.mp4` | `examples/simply-animated/preview.mp4` |
-|---|---|---|
-| "What if your X account doubled its followers every second?" — 49 s | "What if a data center doubled its power every 2 seconds?" — 107 s | "AI builder edition" — glowing stick figures, "A vs B", cut to a phonk track — 34 s |
+| `examples/x-followers/preview.mp4` | `examples/data-center/preview.mp4` | `examples/simply-animated/preview.mp4` | `examples/ted-ed-riddle/preview.mp4` |
+|---|---|---|---|
+| "What if your X account doubled its followers every second?" — 49 s | "What if a data center doubled its power every 2 seconds?" — 107 s | "AI builder edition" — glowing stick figures, "A vs B", cut to a phonk track — 34 s | "The avalanche bridge" — a narrated riddle, flat 2D at night — 42 s, made autonomously |
 
-Two styles that have nothing in common, same skill:
+Three styles that have nothing in common, same skill:
 - **[OutwardAnimates](https://www.youtube.com/@outwardanimates)** (the first two) — hazy 3D escalation with a serif HUD.
 - **[Simply Animated](https://www.youtube.com/@SimplyAnimatedVisuals)** — clay-like stick figures with glow on pure black, motivational "A vs B" parables.
+- **[TED-Ed](https://www.youtube.com/@TEDEd)** "Can you solve the bridge riddle?" — flat 2D cut-out characters, handwritten labels, a narrator. Canvas 2D, horizontal.
 
 Credit for the visual language goes to those channels. The stories, code, scenes, figure rig and sound are original; no frames, footage or audio from the channels are included. The Simply Animated example uses a royalty-free Pixabay track (link in its README).
 
@@ -111,6 +112,7 @@ examples/
   x-followers/               src/ + preview.mp4 + scene table + facts
   data-center/               src/ + preview.mp4 + scene table + facts
   simply-animated/           style spec + src/ (stick-figure rig, music.sh) + preview.mp4
+  ted-ed-riddle/             style spec + src/ (canvas 2D engine, narration, sound.py) + preview.mp4
 ```
 
 ## Limits
@@ -122,4 +124,4 @@ examples/
 
 ## License
 
-Code: MIT (`LICENSE`). Fonts in `examples/*/src/fonts/`: Cormorant Garamond, Montserrat, Orbitron — SIL Open Font License 1.1 (`OFL.txt`). three.js, puppeteer and ffmpeg are installed from npm under their own licenses.
+Code: MIT (`LICENSE`). Fonts in `examples/*/src/fonts/`: Cormorant Garamond, Montserrat, Orbitron, Amatic SC — SIL Open Font License 1.1 (`OFL.txt`). three.js, puppeteer and ffmpeg are installed from npm under their own licenses.
