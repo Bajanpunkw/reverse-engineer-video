@@ -31,3 +31,4 @@ A TIME-LAPSE tag is only needed when the ladder doesn't fit the length. A simple
 - "A vs B" styles: the "right" half must be the same action as the left with a different outcome (push → the boulder rolls back / push → a stopper holds it). An abstract mechanism (a boulder riding a conveyor belt by itself) wasn't understood. The metaphor must read without explanation.
 
 - Vertical videos ≤ 60 s — there is no point stretching them. With "doubles every 2 s" the trip from 1 to 8 billion alone takes 66 s; doubling every second fits.
+- Viewers leave at the start: two weeks of X video analytics showed start ~1720 → 25% ~460 → 50% ~240 → complete ~125; whoever passes 25% mostly stays. Put the story's main object (the line, the number, the threat) on frame 0 — it's also the thumbnail in the feed.

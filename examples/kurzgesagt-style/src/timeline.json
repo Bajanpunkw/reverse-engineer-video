@@ -1,0 +1,871 @@
+{
+ "duration": 53.811,
+ "lines": [
+  {
+   "id": "l0",
+   "text": "You type a question and press Enter.",
+   "start": 0.3,
+   "end": 2.073,
+   "words": [
+    {
+     "w": "You",
+     "start": 0.3,
+     "end": 0.354
+    },
+    {
+     "w": "type",
+     "start": 0.367,
+     "end": 0.548
+    },
+    {
+     "w": "a",
+     "start": 0.561,
+     "end": 0.612
+    },
+    {
+     "w": "question",
+     "start": 0.625,
+     "end": 1.141
+    },
+    {
+     "w": "and",
+     "start": 1.282,
+     "end": 1.385
+    },
+    {
+     "w": "press",
+     "start": 1.398,
+     "end": 1.72
+    },
+    {
+     "w": "Enter",
+     "start": 1.733,
+     "end": 2.017
+    }
+   ]
+  },
+  {
+   "id": "l1",
+   "text": "Less than a second later, an answer starts to appear. But what happened in that second?",
+   "start": 2.223,
+   "end": 6.876,
+   "words": [
+    {
+     "w": "Less",
+     "start": 2.223,
+     "end": 2.408
+    },
+    {
+     "w": "than",
+     "start": 2.421,
+     "end": 2.563
+    },
+    {
+     "w": "a",
+     "start": 2.576,
+     "end": 2.615
+    },
+    {
+     "w": "second",
+     "start": 2.627,
+     "end": 3.001
+    },
+    {
+     "w": "later",
+     "start": 3.014,
+     "end": 3.323
+    },
+    {
+     "w": "an",
+     "start": 3.71,
+     "end": 3.8
+    },
+    {
+     "w": "answer",
+     "start": 3.813,
+     "end": 4.135
+    },
+    {
+     "w": "starts",
+     "start": 4.148,
+     "end": 4.457
+    },
+    {
+     "w": "to",
+     "start": 4.47,
+     "end": 4.586
+    },
+    {
+     "w": "appear",
+     "start": 4.599,
+     "end": 5.102
+    },
+    {
+     "w": "But",
+     "start": 5.54,
+     "end": 5.617
+    },
+    {
+     "w": "what",
+     "start": 5.63,
+     "end": 5.746
+    },
+    {
+     "w": "happened",
+     "start": 5.759,
+     "end": 6.12
+    },
+    {
+     "w": "in",
+     "start": 6.133,
+     "end": 6.197
+    },
+    {
+     "w": "that",
+     "start": 6.21,
+     "end": 6.365
+    },
+    {
+     "w": "second",
+     "start": 6.377,
+     "end": 6.816
+    }
+   ]
+  },
+  {
+   "id": "l2",
+   "text": "First, your words are chopped into small pieces, called tokens.",
+   "start": 7.176,
+   "end": 10.959,
+   "words": [
+    {
+     "w": "First",
+     "start": 7.176,
+     "end": 7.55
+    },
+    {
+     "w": "your",
+     "start": 7.808,
+     "end": 7.924
+    },
+    {
+     "w": "words",
+     "start": 7.937,
+     "end": 8.194
+    },
+    {
+     "w": "are",
+     "start": 8.207,
+     "end": 8.297
+    },
+    {
+     "w": "chopped",
+     "start": 8.31,
+     "end": 8.736
+    },
+    {
+     "w": "into",
+     "start": 8.748,
+     "end": 8.89
+    },
+    {
+     "w": "small",
+     "start": 8.903,
+     "end": 9.264
+    },
+    {
+     "w": "pieces",
+     "start": 9.277,
+     "end": 9.857
+    },
+    {
+     "w": "called",
+     "start": 10.063,
+     "end": 10.295
+    },
+    {
+     "w": "tokens",
+     "start": 10.308,
+     "end": 10.913
+    }
+   ]
+  },
+  {
+   "id": "l3",
+   "text": "To the AI, each token is just a list of numbers.",
+   "start": 11.109,
+   "end": 14.472,
+   "words": [
+    {
+     "w": "To",
+     "start": 11.109,
+     "end": 11.159
+    },
+    {
+     "w": "the",
+     "start": 11.172,
+     "end": 11.301
+    },
+    {
+     "w": "AI",
+     "start": 11.314,
+     "end": 11.804
+    },
+    {
+     "w": "each",
+     "start": 12.216,
+     "end": 12.448
+    },
+    {
+     "w": "token",
+     "start": 12.461,
+     "end": 12.886
+    },
+    {
+     "w": "is",
+     "start": 12.989,
+     "end": 13.144
+    },
+    {
+     "w": "just",
+     "start": 13.157,
+     "end": 13.402
+    },
+    {
+     "w": "a",
+     "start": 13.415,
+     "end": 13.453
+    },
+    {
+     "w": "list",
+     "start": 13.466,
+     "end": 13.788
+    },
+    {
+     "w": "of",
+     "start": 13.801,
+     "end": 13.878
+    },
+    {
+     "w": "numbers",
+     "start": 13.891,
+     "end": 14.42
+    }
+   ]
+  },
+  {
+   "id": "l4",
+   "text": "These numbers rush into a giant web of artificial neurons.",
+   "start": 14.672,
+   "end": 18.91,
+   "words": [
+    {
+     "w": "These",
+     "start": 14.672,
+     "end": 14.897
+    },
+    {
+     "w": "numbers",
+     "start": 14.91,
+     "end": 15.322
+    },
+    {
+     "w": "rush",
+     "start": 15.335,
+     "end": 15.825
+    },
+    {
+     "w": "into",
+     "start": 15.967,
+     "end": 16.212
+    },
+    {
+     "w": "a",
+     "start": 16.225,
+     "end": 16.302
+    },
+    {
+     "w": "giant",
+     "start": 16.315,
+     "end": 16.817
+    },
+    {
+     "w": "web",
+     "start": 16.83,
+     "end": 17.178
+    },
+    {
+     "w": "of",
+     "start": 17.423,
+     "end": 17.552
+    },
+    {
+     "w": "artificial",
+     "start": 17.616,
+     "end": 18.183
+    },
+    {
+     "w": "neurons",
+     "start": 18.196,
+     "end": 18.866
+    }
+   ]
+  },
+  {
+   "id": "l5",
+   "text": "A big open model has about seventy billion parameters, and for every token, it uses all of them.",
+   "start": 19.06,
+   "end": 24.985,
+   "words": [
+    {
+     "w": "A",
+     "start": 19.06,
+     "end": 19.117
+    },
+    {
+     "w": "big",
+     "start": 19.13,
+     "end": 19.374
+    },
+    {
+     "w": "open",
+     "start": 19.387,
+     "end": 19.658
+    },
+    {
+     "w": "model",
+     "start": 19.671,
+     "end": 20.032
+    },
+    {
+     "w": "has",
+     "start": 20.044,
+     "end": 20.264
+    },
+    {
+     "w": "about",
+     "start": 20.276,
+     "end": 20.534
+    },
+    {
+     "w": "seventy",
+     "start": 20.547,
+     "end": 20.998
+    },
+    {
+     "w": "billion",
+     "start": 21.011,
+     "end": 21.359
+    },
+    {
+     "w": "parameters",
+     "start": 21.372,
+     "end": 22.145
+    },
+    {
+     "w": "and",
+     "start": 22.39,
+     "end": 22.493
+    },
+    {
+     "w": "for",
+     "start": 22.506,
+     "end": 22.725
+    },
+    {
+     "w": "every",
+     "start": 22.854,
+     "end": 23.112
+    },
+    {
+     "w": "token",
+     "start": 23.124,
+     "end": 23.575
+    },
+    {
+     "w": "it",
+     "start": 23.975,
+     "end": 24.065
+    },
+    {
+     "w": "uses",
+     "start": 24.078,
+     "end": 24.374
+    },
+    {
+     "w": "all",
+     "start": 24.387,
+     "end": 24.619
+    },
+    {
+     "w": "of",
+     "start": 24.632,
+     "end": 24.722
+    },
+    {
+     "w": "them",
+     "start": 24.735,
+     "end": 24.916
+    }
+   ]
+  },
+  {
+   "id": "l6",
+   "text": "That's around a hundred and forty billion calculations. For one token.",
+   "start": 25.135,
+   "end": 29.058,
+   "words": [
+    {
+     "w": "That's",
+     "start": 25.135,
+     "end": 25.274
+    },
+    {
+     "w": "around",
+     "start": 25.287,
+     "end": 25.583
+    },
+    {
+     "w": "a",
+     "start": 25.596,
+     "end": 25.635
+    },
+    {
+     "w": "hundred",
+     "start": 25.648,
+     "end": 26.008
+    },
+    {
+     "w": "and",
+     "start": 26.021,
+     "end": 26.099
+    },
+    {
+     "w": "forty",
+     "start": 26.112,
+     "end": 26.537
+    },
+    {
+     "w": "billion",
+     "start": 26.55,
+     "end": 26.923
+    },
+    {
+     "w": "calculations",
+     "start": 26.936,
+     "end": 27.825
+    },
+    {
+     "w": "For",
+     "start": 28.302,
+     "end": 28.405
+    },
+    {
+     "w": "one",
+     "start": 28.418,
+     "end": 28.573
+    },
+    {
+     "w": "token",
+     "start": 28.586,
+     "end": 28.985
+    }
+   ]
+  },
+  {
+   "id": "l7",
+   "text": "All this math runs on chips like this one. A GPU.",
+   "start": 29.358,
+   "end": 32.631,
+   "words": [
+    {
+     "w": "All",
+     "start": 29.358,
+     "end": 29.465
+    },
+    {
+     "w": "this",
+     "start": 29.478,
+     "end": 29.646
+    },
+    {
+     "w": "math",
+     "start": 29.659,
+     "end": 30.032
+    },
+    {
+     "w": "runs",
+     "start": 30.045,
+     "end": 30.316
+    },
+    {
+     "w": "on",
+     "start": 30.329,
+     "end": 30.458
+    },
+    {
+     "w": "chips",
+     "start": 30.471,
+     "end": 30.793
+    },
+    {
+     "w": "like",
+     "start": 30.806,
+     "end": 30.986
+    },
+    {
+     "w": "this",
+     "start": 30.999,
+     "end": 31.179
+    },
+    {
+     "w": "one",
+     "start": 31.192,
+     "end": 31.424
+    },
+    {
+     "w": "A",
+     "start": 31.849,
+     "end": 31.927
+    },
+    {
+     "w": "GPU",
+     "start": 31.94,
+     "end": 32.545
+    }
+   ]
+  },
+  {
+   "id": "l8",
+   "text": "They run so hot that thousands of them live in huge buildings, full of cooling pipes and power lines.",
+   "start": 32.781,
+   "end": 38.658,
+   "words": [
+    {
+     "w": "They",
+     "start": 32.781,
+     "end": 32.867
+    },
+    {
+     "w": "run",
+     "start": 32.88,
+     "end": 33.137
+    },
+    {
+     "w": "so",
+     "start": 33.15,
+     "end": 33.395
+    },
+    {
+     "w": "hot",
+     "start": 33.408,
+     "end": 33.73
+    },
+    {
+     "w": "that",
+     "start": 33.82,
+     "end": 33.988
+    },
+    {
+     "w": "thousands",
+     "start": 34.001,
+     "end": 34.594
+    },
+    {
+     "w": "of",
+     "start": 34.606,
+     "end": 34.684
+    },
+    {
+     "w": "them",
+     "start": 34.697,
+     "end": 34.89
+    },
+    {
+     "w": "live",
+     "start": 34.903,
+     "end": 35.212
+    },
+    {
+     "w": "in",
+     "start": 35.225,
+     "end": 35.328
+    },
+    {
+     "w": "huge",
+     "start": 35.341,
+     "end": 35.715
+    },
+    {
+     "w": "buildings",
+     "start": 35.728,
+     "end": 36.282
+    },
+    {
+     "w": "full",
+     "start": 36.54,
+     "end": 36.733
+    },
+    {
+     "w": "of",
+     "start": 36.746,
+     "end": 36.849
+    },
+    {
+     "w": "cooling",
+     "start": 36.862,
+     "end": 37.274
+    },
+    {
+     "w": "pipes",
+     "start": 37.287,
+     "end": 37.661
+    },
+    {
+     "w": "and",
+     "start": 37.674,
+     "end": 37.751
+    },
+    {
+     "w": "power",
+     "start": 37.764,
+     "end": 38.086
+    },
+    {
+     "w": "lines",
+     "start": 38.099,
+     "end": 38.614
+    }
+   ]
+  },
+  {
+   "id": "l9",
+   "text": "And then, out comes the answer. Not all of it. Just one token.",
+   "start": 38.958,
+   "end": 42.835,
+   "words": [
+    {
+     "w": "And",
+     "start": 38.958,
+     "end": 39.026
+    },
+    {
+     "w": "then",
+     "start": 39.039,
+     "end": 39.271
+    },
+    {
+     "w": "out",
+     "start": 39.683,
+     "end": 39.812
+    },
+    {
+     "w": "comes",
+     "start": 39.825,
+     "end": 40.044
+    },
+    {
+     "w": "the",
+     "start": 40.057,
+     "end": 40.147
+    },
+    {
+     "w": "answer",
+     "start": 40.16,
+     "end": 40.611
+    },
+    {
+     "w": "Not",
+     "start": 41.036,
+     "end": 41.178
+    },
+    {
+     "w": "all",
+     "start": 41.191,
+     "end": 41.333
+    },
+    {
+     "w": "of",
+     "start": 41.345,
+     "end": 41.436
+    },
+    {
+     "w": "it",
+     "start": 41.448,
+     "end": 41.603
+    },
+    {
+     "w": "Just",
+     "start": 42.028,
+     "end": 42.196
+    },
+    {
+     "w": "one",
+     "start": 42.209,
+     "end": 42.338
+    },
+    {
+     "w": "token",
+     "start": 42.351,
+     "end": 42.763
+    }
+   ]
+  },
+  {
+   "id": "l10",
+   "text": "And the whole thing starts again. For every. Single. Word.",
+   "start": 42.985,
+   "end": 46.738,
+   "words": [
+    {
+     "w": "And",
+     "start": 42.985,
+     "end": 43.027
+    },
+    {
+     "w": "the",
+     "start": 43.04,
+     "end": 43.104
+    },
+    {
+     "w": "whole",
+     "start": 43.117,
+     "end": 43.375
+    },
+    {
+     "w": "thing",
+     "start": 43.388,
+     "end": 43.594
+    },
+    {
+     "w": "starts",
+     "start": 43.607,
+     "end": 43.89
+    },
+    {
+     "w": "again",
+     "start": 43.903,
+     "end": 44.238
+    },
+    {
+     "w": "For",
+     "start": 44.689,
+     "end": 44.818
+    },
+    {
+     "w": "every",
+     "start": 44.831,
+     "end": 45.128
+    },
+    {
+     "w": "Single",
+     "start": 45.553,
+     "end": 45.939
+    },
+    {
+     "w": "Word",
+     "start": 46.365,
+     "end": 46.661
+    }
+   ]
+  },
+  {
+   "id": "l11",
+   "text": "So the next time you say thank you to a chatbot, somewhere, a building gets a little warmer.",
+   "start": 47.138,
+   "end": 52.111,
+   "words": [
+    {
+     "w": "So",
+     "start": 47.138,
+     "end": 47.218
+    },
+    {
+     "w": "the",
+     "start": 47.231,
+     "end": 47.308
+    },
+    {
+     "w": "next",
+     "start": 47.321,
+     "end": 47.553
+    },
+    {
+     "w": "time",
+     "start": 47.566,
+     "end": 47.759
+    },
+    {
+     "w": "you",
+     "start": 47.772,
+     "end": 47.875
+    },
+    {
+     "w": "say",
+     "start": 47.888,
+     "end": 48.133
+    },
+    {
+     "w": "thank",
+     "start": 48.146,
+     "end": 48.378
+    },
+    {
+     "w": "you",
+     "start": 48.39,
+     "end": 48.494
+    },
+    {
+     "w": "to",
+     "start": 48.506,
+     "end": 48.622
+    },
+    {
+     "w": "a",
+     "start": 48.635,
+     "end": 48.7
+    },
+    {
+     "w": "chatbot",
+     "start": 48.713,
+     "end": 49.357
+    },
+    {
+     "w": "somewhere",
+     "start": 49.653,
+     "end": 50.195
+    },
+    {
+     "w": "a",
+     "start": 50.581,
+     "end": 50.633
+    },
+    {
+     "w": "building",
+     "start": 50.646,
+     "end": 51.019
+    },
+    {
+     "w": "gets",
+     "start": 51.032,
+     "end": 51.238
+    },
+    {
+     "w": "a",
+     "start": 51.251,
+     "end": 51.303
+    },
+    {
+     "w": "little",
+     "start": 51.316,
+     "end": 51.586
+    },
+    {
+     "w": "warmer",
+     "start": 51.599,
+     "end": 52.05
+    }
+   ]
+  }
+ ]
+}

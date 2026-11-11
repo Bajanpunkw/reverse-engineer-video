@@ -34,3 +34,5 @@ Sound timings come from the same scene table as the video (the same constants).
 - A click + one second of silence at a blackout read as a bad edit → a soft low thump at the exact moment + a dip.
 - An edit-style video with numpy-synthesized phonk: "the music sucks" → a real royalty-free track fitted to the bars.
 - Milestone booms at +8–12 LU over the bed felt jarring → ~3× quieter; thresholds are now enforced by `loudness.py`.
+- A narrator voice sounded "slightly robotic and hoarse": the edge-tts voice (24 kHz) was stretched to 44.1 kHz with linear `np.interp` (metallic artefacts) and a hard compressor. Fix: resample with ffmpeg `aresample=…:resampler=soxr`, compressor 2:1, a gentle top cut (lowpass 9.5 kHz, high shelf −2.5 dB at 6 kHz). Never load a voice into your own `sound.py` through `np.interp`.
+- A loop gets a sound per cycle tied to the same timing constants as the picture (`examples/dice-loop/src/sound.py`: a bell when the new layer appears, a scatter of quiet clicks as the wave lands, a clack at the end), and the tail that runs past the end is wrapped to the start, so the loop has no gap.

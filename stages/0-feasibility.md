@@ -41,3 +41,5 @@ To the user: verdict, one line of why, the sheet path, and for 🟢 — what we'
 ## Lessons
 
 - Pitch channels only after looking at real frames, never from thumbnails and view counts — two "animation" channels turned out to be Minecraft/Roblox recordings.
+- Hand-drawn characters in close-up (anime, ink drawings) are 🔴 for code. A test with a 90s anime got the sky, sun and red palette close, but the people (figure, eyes, faces) looked like a Flash cartoon next to ink drawing. Recreate such styles only when there are no characters in frame or they are silhouettes.
+- Stylized Blender 3D with fine ground textures and motion blur can score as "footage" on the numbers. Decide by eye: clean geometry, no skin pores, no handheld shake → it's authored 3D.

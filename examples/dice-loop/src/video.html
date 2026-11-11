@@ -1,0 +1,143 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<meta name="video-size" content="1080x1920">
+<style>html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from '/three/examples/jsm/geometries/RoundedBoxGeometry.js';
+
+// "Infinite Dice Waves" style (3d Loop Layer) — a seamless loop: a new layer of dice lands in a wave on the old one,
+// and a die of the next colour flies up out of the centre hole. 3 colours × CYCLE s = the whole loop.
+const W = 1080, H = 1920;
+const CYCLE = 1.86;                       // measured: 5.58 s / 3 colours
+const LAYERS = [                          // body colour (median measured on frames) and the face on top
+  { col: '#1fe681', top: 4 },               // pips on top — from the pip density on the original's near dice (≈5/5/6)
+  { col: '#d80ae2', top: 5 },
+  { col: '#ee5a10', top: 6 },
+];
+const N = 30;                             // grid (2N+1)²
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(1);
+renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NoToneMapping;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#000');
+const camera = new THREE.PerspectiveCamera(58, W / H, 0.1, 300);
+
+// light: soft fill + a directional key from top-left with shadows
+scene.add(new THREE.HemisphereLight(0xffffff, 0x666666, 1.6));
+const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -26, right: 26, top: 26, bottom: -26, near: 1, far: 90 });
+sun.shadow.bias = -0.0008; sun.shadow.radius = 3;
+scene.add(sun); scene.add(sun.target);
+
+// ---------- die faces: colour + glossy black pips ----------
+const PIPS = { 1: [[.5, .5]], 2: [[.28, .28], [.72, .72]], 3: [[.26, .26], [.5, .5], [.74, .74]],
+  4: [[.27, .27], [.73, .27], [.27, .73], [.73, .73]], 5: [[.25, .25], [.75, .25], [.5, .5], [.25, .75], [.75, .75]],
+  6: [[.27, .23], [.27, .5], [.27, .77], [.73, .23], [.73, .5], [.73, .77]] };
+function faceTex(col, n, rough = false) {
+  const S = 1024, c = document.createElement('canvas'); c.width = c.height = S; const g = c.getContext('2d');
+  g.fillStyle = rough ? '#8c8c8c' : col; g.fillRect(0, 0, S, S);
+  for (const [u, v] of PIPS[n]) {
+    const x = u * S, y = v * S, r = S * .1;                                   // standard die layout
+    if (rough) { g.fillStyle = '#1e1e1e'; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); continue; }   // the pip is glossy (roughness map)
+    g.strokeStyle = 'rgba(0,0,0,.22)'; g.lineWidth = 8; g.beginPath(); g.arc(x, y, r + 4, 0, 7); g.stroke();   // rim of the dimple
+    g.fillStyle = '#010101'; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill();                                   // black pip
+    g.strokeStyle = 'rgba(255,255,255,.2)'; g.lineWidth = r * .11; g.beginPath(); g.arc(x, y, r * .9, -.35, 1.9); g.stroke(); // lit inner wall
+    const hl = g.createRadialGradient(x - r * .4, y - r * .4, 0, x - r * .4, y - r * .4, r * .2); hl.addColorStop(0, 'rgba(255,255,255,.6)'); hl.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = hl; g.beginPath(); g.arc(x - r * .4, y - r * .4, r * .2, 0, 7); g.fill();   // highlight
+  }
+  const t = new THREE.CanvasTexture(c); if (!rough) t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 16; t.generateMipmaps = true; t.minFilter = THREE.LinearMipmapLinearFilter; return t;
+}
+const TEX = {}; const tex = (col, n) => TEX[col + n] || (TEX[col + n] = faceTex(col, n));
+const RTEX = {}; const rtex = n => RTEX[n] || (RTEX[n] = faceTex('#000', n, true));
+// BoxGeometry material group order: +x, -x, +y, -y, +z, -z
+const SIDES = { 4: [2, 5, 4, 3, 1, 6], 5: [3, 4, 5, 2, 1, 6], 6: [3, 4, 6, 1, 2, 5] };
+function materials(L) {
+  const nums = SIDES[L.top];
+  return nums.map(n => new THREE.MeshStandardMaterial({ map: tex(L.col, n), roughnessMap: rtex(n), roughness: 1, metalness: 0 }));
+}
+const geo = new RoundedBoxGeometry(1, 1, 1, 3, .05);
+
+// ---------- layers: one InstancedMesh per colour ----------
+const cells = [];
+for (let i = -N; i <= N; i++) for (let j = -N; j <= N; j++) cells.push([i, j]);
+function mulberry32(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296 } }
+const rnd = mulberry32(7), DELAY = cells.map(([i, j]) => rnd());
+const meshes = LAYERS.map(L => { const m = new THREE.InstancedMesh(geo, materials(L), cells.length); m.castShadow = m.receiveShadow = true;
+  m.instanceMatrix.setUsage(THREE.DynamicDrawUsage); m.frustumCulled = false; scene.add(m); return m; });
+const hero = LAYERS.map(L => { const m = new THREE.Mesh(geo, materials(L)); m.castShadow = true; scene.add(m); return m; });
+const filler = LAYERS.map(L => { const m = new THREE.Mesh(geo, materials(L)); m.castShadow = m.receiveShadow = true; scene.add(m); return m; });
+
+const grid = new THREE.Group(); // grid rotated 45° — diamonds, like the original
+const R45 = new THREE.Matrix4().makeRotationY(Math.PI / 4);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = x => x * x * (3 - 2 * x);
+const easeOut = x => 1 - Math.pow(1 - x, 3);
+const M = new THREE.Matrix4(), Q = new THREE.Quaternion(), P = new THREE.Vector3(), S = new THREE.Vector3(), E = new THREE.Euler();
+const ZERO = new THREE.Matrix4().makeScale(0, 0, 0);
+
+// world position of a cell (with the grid rotation)
+const cellPos = (i, j, y) => new THREE.Vector3(i, y, j).applyMatrix4(R45);
+
+// when a cell of the new layer appears: random delay + a wave from the far edge towards the camera
+function landT(k, idx, u) {
+  // a diagonal front from the top-right of the screen (axis i after the 45° turn) + a few early dice near the camera
+  const [i, j] = cells[idx]; const w = clamp((i + 9) / 18);
+  let d = .62 + (1 - w) * .45 + DELAY[idx] * .3;                 // 0.62…1.37 s into the cycle, dice scattered over the whole field
+  if (DELAY[idx] < .05) d -= .3;
+  return clamp((u - d) / .26);
+}
+
+function setLayer(mesh, y, prog, k, hole = true) {   // prog: null — the layer is settled; a number — cycle time u for the layer being built
+  for (let idx = 0; idx < cells.length; idx++) {
+    const [i, j] = cells[idx];
+    if (hole && i === 0 && j === 0) { mesh.setMatrixAt(idx, ZERO); continue; }   // hole in the centre
+    if (!hole && (Math.abs(i) > 1 || Math.abs(j) > 1)) { mesh.setMatrixAt(idx, ZERO); continue; } // the lower layer is only needed under the hole: keeps the seams dark
+    let s = 1, dy = 0, rot = 0;
+    if (prog !== null) { const a = landT(k, idx, prog); if (a <= 0) { mesh.setMatrixAt(idx, ZERO); continue; }
+      const e = easeOut(a); s = .06 + .94 * e; dy = (1 - e) * .6; }
+    P.copy(cellPos(i, j, y + dy)); E.set(rot * .6, Math.PI / 4 + rot, rot * .4); Q.setFromEuler(E); S.set(s, s, s);
+    M.compose(P, Q, S); mesh.setMatrixAt(idx, M);
+  }
+  mesh.instanceMatrix.needsUpdate = true; mesh.visible = true;
+}
+
+window.renderFrame = async (t) => {
+  const TOTAL = CYCLE * LAYERS.length;
+  t = ((t % TOTAL) + TOTAL) % TOTAL;
+  const k = Math.floor(t / CYCLE), u = t - k * CYCLE;             // k — cycle number, u — time inside the cycle
+  const top = k % 3, below = (k + 2) % 3, next = (k + 1) % 3;
+  // heights: settled top layer at 0, the one below at −1, the new one lands at +1
+  const rise = ease(clamp((u - 1.12) / .7));                       // the camera rises by exactly one die per cycle → seamless loop
+  const camY = 5.7 + rise, lookY = rise;
+  camera.position.set(0, camY, 3.6); camera.lookAt(0, lookY - .45, -1.0);
+  sun.position.set(-8, camY + 14, 6); sun.target.position.set(0, 0, 0);
+
+  meshes.forEach(m => m.visible = false); hero.forEach(h => h.visible = false); filler.forEach(f => f.visible = false);
+  setLayer(meshes[below], -1, null, k, false);
+  setLayer(meshes[top], 0, null, k);
+  setLayer(meshes[next], 1, u, k);
+
+  // hero: a die of the next colour rises out of the hole and flies up the screen
+  const hu = clamp(u / 1.75);
+  if (hu < 1) { const h = hero[next]; h.visible = true;
+    // aligned with the grid, from ~0.3 of a field die to ~2 dice wide on screen
+    const e = Math.pow(hu, 1.15), s = (.3 + .7 * clamp(hu * 1.8)) * ease(clamp(u / .15));   // grows from zero — no jump at the loop seam (known flaw: it still grazes its neighbours a little)
+    h.position.set(0, -.45 + e * 4.4, -e * 2.0); h.scale.setScalar(s);
+    h.rotation.set(0, Math.PI / 4, 0); }
+
+  // the top layer's hole is filled by a die of its own colour while the new layer lands
+  const fu = ease(clamp((u - .95) / .5)); if (fu > 0) { const f = filler[top]; f.visible = true; f.position.set(0, -1 + fu, 0); f.rotation.set(0, Math.PI / 4, 0); }
+  sun.target.position.set(0, lookY, 0);
+  renderer.render(scene, camera);
+};
+await window.renderFrame(parseFloat(new URLSearchParams(location.search).get('t') || '0'));
+window.READY = true;
+</script></body></html>

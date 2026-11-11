@@ -2,7 +2,7 @@
 
 ## The `src/video.html` contract (what the renderer expects)
 
-- Page size = video size (1080×1920 or 1920×1080), no scrolling, an explicit background.
+- Page size = video size (1080×1920 or 1920×1080), no scrolling, an explicit background. Horizontal: render with `--size 1920x1080`.
 - `window.renderFrame = async (t) => {...}` — draws the frame at `t` seconds of video. Depends only on `t`: randomness through your own seeded generator, no `Date.now()`, no CSS animations, no `requestAnimationFrame` loops.
 - `window.READY = true` — after fonts (`document.fonts.load('400 88px MyFont')` for every weight/style you use), textures and the first frame are loaded.
 - `?t=12.5` in the URL — draw the first frame at that time.
@@ -22,7 +22,7 @@
 1. Overlay over an original frame (use the original as a temporary background) → `compare.py --regions` → until it matches.
 2. One full scene → control frames: `node scripts/render.cjs src work/frames --frames 2.5,5,10` then `python scripts/sheet.py work/frames`.
 3. The other scenes, 2–3 control frames each.
-4. **Self-check before showing:** for every scene put our frame next to a similar frame of the original (`compare.py` without masks — look at colour and palette; plus your eyes): light, palette, contrast, haze, text size, proportions. Write down what still differs. Iterate until the differences are small.
+4. **Self-check before showing** (then the auto-critic, `stages/critic.md`, with the control frames as `--ours`): for every scene put our frame next to a similar frame of the original (`compare.py` without masks — look at colour and palette; plus your eyes): light, palette, contrast, haze, text size, proportions. Write down what still differs. Iterate until the differences are small.
 5. 🛑 To the user: the control-frame sheet (ours | original) + what still differs.
 
 ## Pitfalls already hit
@@ -44,7 +44,15 @@
 - Captions above something that enters the frame (an avalanche) — fade them out before it arrives; a white flash goes to pure white in 3–4 frames, never a milky half-white.
 - "Only the lantern circle is lit": everything outside is fully opaque; characters in the dark are drawn on top as black silhouettes with white eyes, otherwise they look like 25% ghosts.
 
+- Seamless loops (`examples/dice-loop`): the last frame must equal the first. Make every cycle identical and move the camera by exactly one step per cycle, so the state at the end is the start shifted by one layer; check by comparing frame 0 with the frame one loop later.
+- Objects that fly close to others (a die rising out of a hole between neighbours) — check control frames for intersections: keep it no wider than a cell while it's below the neighbours' tops, or lift it straight up first.
+- Pips, dots and other small dark details on a glossy surface come out grey and blurry with plain textures — use a roughness map (glossy inside the dot), anisotropy 16 and mipmaps.
+- Photoreal interiors are reachable from simple geometry (`examples/room`): RoundedBox furniture, RectAreaLight from the window, RoomEnvironment for reflections, GTAO + bloom, venetian-blind shadow from a shadow-casting light. Seed `Math.random` (GTAO uses it), or the noise differs between render workers.
+
 ## Lessons
 
 - A 3D hall that's too dark reads as a black blob → lighter, with haze.
 - Daylight vs. the original's dusk and capsule people vs. figures with limbs were accepted trade-offs; say so instead of hiding them.
+- 2D camera zoom: divide line widths and dot sizes by the camera scale, or a zoomed-out network turns into hairlines.
+- `scene.environment` on the whole scene washes out soil and grass; give an envMap only to metals and glass.
+- Styles with a caption in the middle of a vertical frame: put the main object at 55–65% of the height (or shift the whole render down with `camera.setViewOffset(W, H, 0, -190, W, H)`), otherwise the caption sits on it.

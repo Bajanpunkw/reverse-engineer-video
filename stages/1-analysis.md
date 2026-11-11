@@ -35,5 +35,8 @@ Build one sample frame — the most recognizable screen (usually the overlay on 
 ## Lessons
 
 - Giant old channels (TED-Ed, OverSimplified) are good style references but bad pacing references: their views were earned over years. Measure pacing on young channels with short videos.
-- "Flat" doesn't always mean canvas 2D: glowing "clay" figures (Simply Animated) are three.js with an orthographic camera + soft light + bloom. If the user asks "is this 3D?" — the camera is orthographic, the image is flat; three.js is there for shading and glow.
+- "Flat" doesn't always mean canvas 2D: glowing "clay" figures (Simply Animated) are three.js with an orthographic camera + soft light + bloom (UnrealBloom 0.45 / 0.3 / 0.82). If the user asks "is this 3D?" — the camera is orthographic, the image is flat; three.js is there for shading and glow.
 - Subtitles from YouTube auto-captions give approximate word timings; good enough for words/min, not for per-word sync.
+- YouTube serves Shorts at 608×1080 even when you ask for 1080p. Scale every px measurement by 1920/1080 ≈ 1.78 before putting it into the spec.
+- Font matching works best by rendering: put 6–8 free candidates (Google Fonts) under a crop of the original's caption with the same text and compare line width and letter shapes. The Kurzgesagt-style example matched its tag font within ~2% of line width this way (Lexend 700).
+- Measure tag/caption sizes in px (line width, box height) before building, not after the first comparison — a 58 px font where the original has ~50 px was only caught late.

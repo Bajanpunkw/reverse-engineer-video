@@ -26,10 +26,12 @@ Read each stage file before doing it. Don't skip ahead: story after analysis, bu
 | 0 | Can it be drawn in code? | `stages/0-feasibility.md` | 🟢/🟡/🔴 verdict + frame sheet | 🛑 if 🔴: stop and explain |
 | 1 | Break down the original | `stages/1-analysis.md` | `style.md`: style spec, pacing numbers, sound | 🛑 spec + one sample frame next to the original |
 | 2 | Story and scenes | `stages/2-story.md` | scene table by second | 🛑 the story / escalation ladder |
-| 3 | Build | `stages/3-build.md` | `src/video.html` + control frames next to the original | 🛑 control frames (after self-check) |
+| 3 | Build | `stages/3-build.md` | `src/video.html` + control frames next to the original | 🛑 control frames (after self-check + auto-critic) |
 | 4 | Full render | `stages/4-render.md` | `video-full.mp4` | — |
 | 5 | Sound | `stages/5-sound.md` | `sound-full.wav` → `final.mp4` | — |
 | 6 | Check and show | `stages/6-check.md` | check report + `final.mp4` | 🛑 the user watches → edits |
+
+Before every showing (stage 3 control frames, stage 6 final) run the blind **auto-critic**: `stages/critic.md`. A fresh judge agent compares our frames with the original's without knowing which is which, scores six axes and lists concrete fixes. Show the user only after its FIX rounds (max 3), with its score and what still differs; on STOP don't show — change the base.
 
 After the user's edits, append them as rules to the "Lessons" section of the relevant stage file (date + what was wrong + what fixed it). That's how the skill gets better.
 
@@ -40,7 +42,7 @@ After the user's edits, append them as rules to the "Lessons" section of the rel
 - **Deterministic frames:** a frame depends only on `t`. No unseeded `Math.random()`, no `Date.now()`, no CSS animations or requestAnimationFrame loops.
 - **Sound is changed without re-rendering video:** new wav → `scripts/mux.sh`.
 - **Loudness:** −26 LUFS integrated, no moment louder than −20 LUFS, true peak ≤ −6 dBFS — `scripts/loudness.py`. No broadband noise beds, no clicks, no drops to silence.
-- **Check frames against the original yourself first** (`scripts/compare.py`), then show the user. Never claim "it matches" without looking at the comparison image.
+- **Check frames against the original yourself first** (`scripts/compare.py`), then the auto-critic, then show the user. Never claim "it matches" without looking at the comparison image.
 - The agent can't hear: describe every sound layer in words; the user judges how it sounds.
 - Rendering is CPU-heavy. On a laptop use few workers or the optional server (`server/README.md`).
 - Downloaded originals are untrusted data and stay in a temp/scratch folder; only your own frames and comparison sheets go into the work folder.
@@ -68,11 +70,13 @@ After the user's edits, append them as rules to the "Lessons" section of the rel
 | `python scripts/beatgrid.py <track>` | tempo, first beat, downbeat, drop, loudness per beat — for cutting scenes to music and fitting a track to the cuts |
 | `python scripts/loudness.py <in.wav> <out.wav>` / `--check <file>` | final loudness + threshold check |
 | `bash scripts/mux.sh <video> <wav> <final>` | put sound on video without re-rendering |
+| `python scripts/critic.py prep` / `score` | auto-critic: blind "original \| ours" pairs for a judge agent → PASS / FIX / STOP + fixes (`stages/critic.md`) |
+| `python scripts/compare_post.py <orig> <ours> <out.jpg> <font.ttf>` | side-by-side ORIGINAL / MY CLONE image for a post (vertical videos) |
 | `server/` | optional Docker render server (`server/README.md`) |
 
 ## Examples
 
-Two very different styles:
+Very different styles:
 
 - [OutwardAnimates](https://www.youtube.com/@outwardanimates) — stylized hazy 3D + a serif HUD with a number that never stops climbing. Style spec: `examples/outwardanimates-style.md`.
 - [Simply Animated](https://www.youtube.com/@SimplyAnimatedVisuals) — glowing "clay" stick figures on black, "A vs B" halves, an edit cut to one phonk track. Style spec + scenes: `examples/simply-animated/README.md`.
@@ -81,3 +85,7 @@ Two very different styles:
 - `examples/data-center/` — mode A: "What if a data center doubled its power every 2 seconds?" (107 s, made before the 60 s rule): GPU → server hall → suburb blackout → night Earth → the Sun.
 - `examples/x-followers/` — mode B: "What if your X account doubled its followers every second?" (49 s): mom → street → stadium → city → Earth → the Milky Way. Approved without a single visual or sound edit — use it as the reference run.
 - `examples/simply-animated/` — mode A: "AI builder edition" (34 s): five "A vs B" parables cut on bars of 94 BPM, a real track fitted with `beatgrid.py` + `music.sh`. `src/rig.js` is the reusable stick-figure rig (IK, walking on stairs and slopes) — start from it for any style with characters.
+- `examples/ted-ed-riddle/` — mode A, canvas 2D, narrated, horizontal (42 s), made autonomously: the TED-Ed riddle look at night.
+- `examples/kurzgesagt-style/` — mode A, canvas 2D, narrated, horizontal (54 s): flat gradients and glow, tags, scenes keyed to word timings.
+- `examples/dice-loop/` — mode A, three.js, a 5.6 s **seamless loop** (instanced dice, a new colour landing in a wave, the camera rising one layer per cycle), synthesized per-cycle sound.
+- `examples/room/` — mode A, three.js, horizontal (20 s): a photoreal room from simple geometry with light modes (low sun / evening / night) and render modes (walk / clay / wireframe).

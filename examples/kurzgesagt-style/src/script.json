@@ -1,0 +1,14 @@
+{"lead": 0.3, "tail": 1.6, "trim": true, "lines": [
+ {"id":"l0","text":"You type a question and press Enter.","gap":0.15},
+ {"id":"l1","text":"Less than a second later, an answer starts to appear. But what happened in that second?","gap":0.3},
+ {"id":"l2","text":"First, your words are chopped into small pieces, called tokens.","gap":0.15},
+ {"id":"l3","text":"To the AI, each token is just a list of numbers.","gap":0.2},
+ {"id":"l4","text":"These numbers rush into a giant web of artificial neurons.","gap":0.15},
+ {"id":"l5","text":"A big open model has about seventy billion parameters, and for every token, it uses all of them.","gap":0.15},
+ {"id":"l6","text":"That's around a hundred and forty billion calculations. For one token.","gap":0.3},
+ {"id":"l7","text":"All this math runs on chips like this one. A GPU.","gap":0.15},
+ {"id":"l8","text":"They run so hot that thousands of them live in huge buildings, full of cooling pipes and power lines.","gap":0.3},
+ {"id":"l9","text":"And then, out comes the answer. Not all of it. Just one token.","gap":0.15},
+ {"id":"l10","text":"And the whole thing starts again. For every. Single. Word.","gap":0.4},
+ {"id":"l11","text":"So the next time you say thank you to a chatbot, somewhere, a building gets a little warmer.","gap":0.1}
+]}

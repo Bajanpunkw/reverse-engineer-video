@@ -33,3 +33,5 @@ ffmpeg -i video-full.mp4 -i piece.mp4 -filter_complex \
 ## Lessons
 
 - An hour of CPU WebGL on a laptop overheats it — that's what the server is for.
+- Heavy scenes slow everything down: a photoreal room (4096 shadows, GTAO, ~150 objects) ~2.2 s/frame at 6 workers; three layers of 3,721 instanced dice with 18 1024² textures ~3.5 s/frame. At 6 workers one browser timed out on load or on a screenshot — re-run the same range with fewer workers (4); finished frames are reused.
+- After downloading a render, check the file time and the first frame: a waiter started before the new job can grab the previous output.
