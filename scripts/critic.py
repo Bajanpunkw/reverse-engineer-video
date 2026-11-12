@@ -72,16 +72,20 @@ def feat(im):
 
 
 def spread(items, n):
-    """Greedily pick n frames that are as different from each other as possible (different scenes)."""
+    """Greedily pick up to n frames that are as different from each other as possible (different scenes), no repeats."""
     if len(items) <= n:
         return list(range(len(items)))
     F = np.stack([feat(im) for _, im in items])
-    pick = [len(items) // 3]
+    ok = np.ones(len(items), bool)
+    if len(items) - 4 >= n:  # skip the very first and last frames (fades) only if enough frames remain without them
+        ok[:2] = ok[-2:] = False
+    pick = [int(np.flatnonzero(ok)[ok.sum() // 3])]
     while len(pick) < n:
         d = np.min(np.linalg.norm(F[:, None] - F[pick][None], axis=2), axis=1)
-        d[pick] = -1
-        d[:2] = -1  # skip the very first and last frames (fades)
-        d[-2:] = -1
+        d[~ok] = -np.inf
+        d[pick] = -np.inf
+        if not np.isfinite(d.max()):  # out of candidates: fewer pairs, never duplicates
+            break
         pick.append(int(d.argmax()))
     return sorted(pick)
 
@@ -129,10 +133,13 @@ def prep(a):
     orig = [(n, hide(im, boxes)) for s in a.orig for n, im in frames(s)]
     ours = [(n, hide(im, boxes)) for s in a.ours for n, im in frames(s)]
     OF = np.stack([feat(im) for _, im in orig])
-    key = []
+    key, used = [], set()
     for k, i in enumerate(spread(ours, a.n), 1):
         name, im = ours[i]
-        j = int(np.linalg.norm(OF - feat(im), axis=1).argmin())
+        dist = np.linalg.norm(OF - feat(im), axis=1)
+        # give each pair its own original frame while unused ones remain
+        j = next((int(x) for x in np.argsort(dist) if int(x) not in used), int(dist.argmin()))
+        used.add(j)
         ours_left = rnd.random() < 0.5
         A, B = (im, orig[j][1]) if ours_left else (orig[j][1], im)
         pair(A, B).save(out / f'pair-{k}.jpg', quality=88)

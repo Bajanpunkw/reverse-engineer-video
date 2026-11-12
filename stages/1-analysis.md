@@ -20,7 +20,7 @@ Goal: `style.md` precise enough to build the style without re-watching the origi
 1. **Channel** — numbers with date, hits, the story formula, the ending.
 2. **Recognizable in one second** — 3–5 traits that must match (for OutwardAnimates: serif typography, crimson tag, metric block on the left, centered italic caption, hazy 3D).
 3. **Frame layout** — a table of elements: position and size in px (on a full-resolution frame), colour as HEX (sample pixels, don't eyeball), font, size, letter-spacing, weight.
-4. **Font** — identify by shape (serifs, old-style figures, italic forms), find the closest free font (Google Fonts), put the TTF in `src/fonts/`, confirm by overlay (`scripts/compare.py --regions`).
+4. **Font** — identify by shape (serifs, old-style figures, italic forms), find the closest free font (Google Fonts), put the TTF in `src/fonts/`, confirm by overlay (`scripts/compare.py --regions`). For CapCut-style captions (rounded, bold, outlined) start from these candidates: Fredoka 700, Baloo 2, Luckiest Guy, Montserrat Black, Bangers — overlay each as a text mask on an original frame and keep the closest.
 5. **Scene / graphics** — shapes, materials, light, fog, depth of field, effects; for 2D — lines, fills, shadows, characters (head/body proportions), backgrounds.
 6. **Camera and transitions** — always moving or not, type of motion, how scenes change, cuts per minute.
 7. **Pacing** — the pulse table (cuts/min, average shot, still share, longest still, first change, how often captions change).
